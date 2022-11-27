@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ImageInformationMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Image_Information_id
+        , Image_Information_url, Image_Information_name, Image_Information_content, Image_status, Image_class, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ImageInformationByCondition">
+        <if test="imageInformationUrl!=null and imageInformationUrl!=''">
+            AND Image_Information_url = #{imageInformationUrl}
+        </if>
+        <if test="imageInformationName!=null and imageInformationName!=''">
+            AND Image_Information_name = #{imageInformationName}
+        </if>
+        <if test="imageInformationContent!=null and imageInformationContent!=''">
+            AND Image_Information_content = #{imageInformationContent}
+        </if>
+        <if test="imageStatus!=null and imageStatus!=''">
+            AND Image_status = #{imageStatus}
+        </if>
+        <if test="imageClass!=null and imageClass!=''">
+            AND Image_class = #{imageClass}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ImageInformationSetColumns">
+        <if test="imageInformationUrl!=null and imageInformationUrl!=''">
+            Image_Information_url = #{imageInformationUrl},
+        </if>
+        <if test="imageInformationName!=null and imageInformationName!=''">
+            Image_Information_name = #{imageInformationName},
+        </if>
+        <if test="imageInformationContent!=null and imageInformationContent!=''">
+            Image_Information_content = #{imageInformationContent},
+        </if>
+        <if test="imageStatus!=null and imageStatus!=''">
+            Image_status = #{imageStatus},
+        </if>
+        <if test="imageClass!=null and imageClass!=''">
+            Image_class = #{imageClass},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ImageInformationMap" type="com.zzw.animalserve.entity.ImageInformation">
+        <id column="Image_Information_id" property="imageInformationId"/>
+        <result column="Image_Information_url" property="imageInformationUrl"/>
+        <result column="Image_Information_name" property="imageInformationName"/>
+        <result column="Image_Information_content" property="imageInformationContent"/>
+        <result column="Image_status" property="imageStatus"/>
+        <result column="Image_class" property="imageClass"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 查询表image_information所有信息 -->
+    <select id="findAllImageInformation" resultMap="ImageInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM image_information
+    </select>
+
+    <!-- 根据主键imageInformationId查询表image_information信息 -->
+    <select id="findImageInformationByimageInformationId" resultMap="ImageInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM image_information
+        WHERE Image_Information_id=#{imageInformationId}
+    </select>
+
+    <!-- 根据条件查询表image_information信息 -->
+    <select id="findImageInformationByCondition" resultMap="ImageInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM image_information
+        WHERE 1=1
+        <include refid="ImageInformationByCondition"/>
+    </select>
+
+    <select id="findImageInformationBySearchList" parameterType="string" resultMap="ImageInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM image_information
+        WHERE Image_Information_name like '%${value}%' and Image_status = 1 and Image_class = '1'
+    </select>
+
+    <!-- 根据主键imageInformationId删除表image_information信息 -->
+    <delete id="deleteImageInformationByimageInformationId">
+        DELETE
+        FROM image_information
+        WHERE Image_Information_id = #{imageInformationId}
+    </delete>
+
+    <!-- 根据主键imageInformationId更新表image_information信息 -->
+    <update id="updateImageInformationByimageInformationId" parameterType="com.zzw.animalserve.entity.ImageInformation">
+        UPDATE image_information
+        <set>
+            <include refid="ImageInformationSetColumns"/>
+        </set>
+        WHERE
+        Image_Information_id=#{imageInformationId}
+    </update>
+
+    <!-- 新增表image_information信息 -->
+    <insert id="addImageInformation" useGeneratedKeys="true" keyColumn="Image_Information_id" keyProperty="imageInformationId">
+        INSERT INTO image_information ( Image_Information_id
+                                      , Image_Information_url
+                                      , Image_Information_name
+                                      , Image_Information_content
+                                      , Image_status
+                                      , Image_class
+                                      , create_id
+                                      , create_time
+                                      , update_id
+                                      , update_time
+                                      , delect_tag)
+        VALUES ( #{imageInformationId}
+               , #{imageInformationUrl}
+               , #{imageInformationName}
+               , #{imageInformationContent}
+               , #{imageStatus}
+               , #{imageClass}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

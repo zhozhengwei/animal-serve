@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.MemberMapper">
+
+    <resultMap type="com.zzw.animalserve.entity.Member" id="MemberMap">
+        <result property="memberId" column="Member_id" jdbcType="INTEGER"/>
+        <result property="memberName" column="Member_name" jdbcType="VARCHAR"/>
+        <result property="memberEmail" column="Member_email" jdbcType="VARCHAR"/>
+        <result property="memberPhone" column="Member_phone" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="memberSex" column="Member_sex" jdbcType="VARCHAR"/>
+        <result property="memberImage" column="Member_image" jdbcType="VARCHAR"/>
+        <result property="memberAddress" column="Member_address" jdbcType="VARCHAR"/>
+        <result property="memberAge" column="Member_age" jdbcType="INTEGER"/>
+        <result property="memberRole" column="Member_role" jdbcType="INTEGER"/>
+        <result property="memberIdentity" column="Member_identity" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delectTag" column="delect_tag" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        Member_id,Member_name,Member_email,
+        Member_phone,password,Member_sex,
+        Member_image,Member_address,Member_age,
+        Member_role,Member_identity,create_time,
+        update_time,delect_tag
+    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" parameterType="java.lang.Long" resultMap="MemberMap">
+        select
+            Member_id, Member_name, Member_email, Member_phone, password, Member_sex, Member_image, Member_address, Member_age, Member_role, Member_identity, create_time, update_time, delect_tag
+        from member
+        where Member_id = #{memberId}
+    </select>
+
+
+
+    <select id="getNavMenuIds" resultType="java.lang.Long">
+        SELECT
+            DISTINCT rm.menu_id
+        FROM
+            sys_member_role ur
+                LEFT JOIN sys_role_menu rm ON ur.role_id = rm.role_id
+
+        WHERE ur.member_id = #{userId}
+
+    </select>
+
+    <select id="listByMenuId" resultMap="MemberMap">
+
+        SELECT DISTINCT
+            su.*
+        FROM
+            sys_member_role ur
+                LEFT JOIN sys_role_menu rm ON ur.role_id = rm.role_id
+                LEFT JOIN member su ON ur.Member_id = su.id
+        WHERE
+            rm.menu_id = #{menuId}
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MemberMap">
+        select
+        Member_id, Member_name, Member_email, Member_phone, password, Member_sex, Member_image, Member_address, Member_age, Member_role, Member_identity, create_time, update_time, delect_tag
+        from member
+        <where>
+            <if test="memberId != null">
+                and Member_id = #{memberId}
+            </if>
+            <if test="memberName != null and memberName != ''">
+                and Member_name = #{memberName}
+            </if>
+            <if test="memberEmail != null and memberEmail != ''">
+                and Member_email = #{memberEmail}
+            </if>
+            <if test="memberPhone != null and memberPhone != ''">
+                and Member_phone = #{memberPhone}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="memberSex != null and memberSex != ''">
+                and Member_sex = #{memberSex}
+            </if>
+            <if test="memberImage != null and memberImage != ''">
+                and Member_image = #{memberImage}
+            </if>
+            <if test="memberAddress != null and memberAddress != ''">
+                and Member_address = #{memberAddress}
+            </if>
+            <if test="memberAge != null">
+                and Member_age = #{memberAge}
+            </if>
+            <if test="memberRole != null">
+                and Member_role = #{memberRole}
+            </if>
+            <if test="memberIdentity != null">
+                and Member_identity = #{memberIdentity}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="delectTag != null">
+                and delect_tag = #{delectTag}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <select id="queryAllBy" resultMap="MemberMap">
+        select
+        Member_id, Member_name, Member_email, Member_phone, password, Member_sex, Member_image, Member_address, Member_age, Member_role, Member_identity, create_time, update_time, delect_tag
+        from member
+        <where>
+            <if test="memberId != null">
+                and Member_id = #{memberId}
+            </if>
+            <if test="memberName != null and memberName != ''">
+                and Member_name = #{memberName}
+            </if>
+            <if test="memberEmail != null and memberEmail != ''">
+                and Member_email = #{memberEmail}
+            </if>
+            <if test="memberPhone != null and memberPhone != ''">
+                and Member_phone = #{memberPhone}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="memberSex != null and memberSex != ''">
+                and Member_sex = #{memberSex}
+            </if>
+            <if test="memberImage != null and memberImage != ''">
+                and Member_image = #{memberImage}
+            </if>
+            <if test="memberAddress != null and memberAddress != ''">
+                and Member_address = #{memberAddress}
+            </if>
+            <if test="memberAge != null">
+                and Member_age = #{memberAge}
+            </if>
+            <if test="memberRole != null">
+                and Member_role = #{memberRole}
+            </if>
+            <if test="memberIdentity != null">
+                and Member_identity = #{memberIdentity}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="delectTag != null">
+                and delect_tag = #{delectTag}
+            </if>
+        </where>
+    </select>
+
+<!--    查询-->
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from member
+        <where>
+            <if test="memberId != null">
+                and Member_id = #{memberId}
+            </if>
+            <if test="memberName != null and memberName != ''">
+                and Member_name = #{memberName}
+            </if>
+            <if test="memberEmail != null and memberEmail != ''">
+                and Member_email = #{memberEmail}
+            </if>
+            <if test="memberPhone != null and memberPhone != ''">
+                and Member_phone = #{memberPhone}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="memberSex != null and memberSex != ''">
+                and Member_sex = #{memberSex}
+            </if>
+            <if test="memberImage != null and memberImage != ''">
+                and Member_image = #{memberImage}
+            </if>
+            <if test="memberAddress != null and memberAddress != ''">
+                and Member_address = #{memberAddress}
+            </if>
+            <if test="memberAge != null">
+                and Member_age = #{memberAge}
+            </if>
+            <if test="memberRole != null">
+                and Member_role = #{memberRole}
+            </if>
+            <if test="memberIdentity != null">
+                and Member_identity = #{memberIdentity}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="delectTag != null">
+                and delect_tag = #{delectTag}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="memberId" useGeneratedKeys="true">
+        insert into member(Member_name, Member_email, Member_phone, password, Member_sex, Member_image, Member_address, Member_age, Member_role, Member_identity, create_time, update_time, delect_tag)
+        values (#{memberName}, #{memberEmail}, #{memberPhone}, #{password}, #{memberSex}, #{memberImage}, #{memberAddress}, #{memberAge}, #{memberRole}, #{memberIdentity}, #{createTime}, #{updateTime}, #{delectTag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="memberId" useGeneratedKeys="true">
+        insert into member(Member_name, Member_email, Member_phone, password, Member_sex, Member_image, Member_address, Member_age, Member_role, Member_identity, create_time, update_time, delect_tag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.memberName}, #{entity.memberEmail}, #{entity.memberPhone}, #{entity.password}, #{entity.memberSex}, #{entity.memberImage}, #{entity.memberAddress}, #{entity.memberAge}, #{entity.memberRole}, #{entity.memberIdentity}, #{entity.createTime}, #{entity.updateTime}, #{entity.delectTag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="memberId" useGeneratedKeys="true">
+        insert into member(Member_name, Member_email, Member_phone, password, Member_sex, Member_image, Member_address, Member_age, Member_role, Member_identity, create_time, update_time, delect_tag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.memberName}, #{entity.memberEmail}, #{entity.memberPhone}, #{entity.password}, #{entity.memberSex}, #{entity.memberImage}, #{entity.memberAddress}, #{entity.memberAge}, #{entity.memberRole}, #{entity.memberIdentity}, #{entity.createTime}, #{entity.updateTime}, #{entity.delectTag})
+        </foreach>
+        on duplicate key update
+        Member_name = values(Member_name),
+        Member_email = values(Member_email),
+        Member_phone = values(Member_phone),
+        password = values(password),
+        Member_sex = values(Member_sex),
+        Member_image = values(Member_image),
+        Member_address = values(Member_address),
+        Member_age = values(Member_age),
+        Member_role = values(Member_role),
+        Member_identity = values(Member_identity),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        delect_tag = values(delect_tag)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update member
+        <set>
+            <if test="memberName != null and memberName != ''">
+                Member_name = #{memberName},
+            </if>
+            <if test="memberEmail != null and memberEmail != ''">
+                Member_email = #{memberEmail},
+            </if>
+            <if test="memberPhone != null and memberPhone != ''">
+                Member_phone = #{memberPhone},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="memberSex != null and memberSex != ''">
+                Member_sex = #{memberSex},
+            </if>
+            <if test="memberImage != null and memberImage != ''">
+                Member_image = #{memberImage},
+            </if>
+            <if test="memberAddress != null and memberAddress != ''">
+                Member_address = #{memberAddress},
+            </if>
+            <if test="memberAge != null">
+                Member_age = #{memberAge},
+            </if>
+            <if test="memberRole != null">
+                Member_role = #{memberRole},
+            </if>
+            <if test="memberIdentity != null">
+                Member_identity = #{memberIdentity},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="delectTag != null">
+                delect_tag = #{delectTag},
+            </if>
+        </set>
+        where Member_id = #{memberId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from member where Member_id = #{memberId}
+    </delete>
+
+</mapper>
+

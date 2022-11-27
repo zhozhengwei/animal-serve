@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ActivityMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Activity_id
+        , Activity_title, Activity_image,Activity_introduction, Activity_main_content, Activity_address, start_time, end_time, create_id, create_time, update_id, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ActivityByCondition">
+        <if test="activityTitle!=null and activityTitle!=''">
+            AND Activity_title = #{activityTitle}
+        </if>
+        <if test="activityImage!=null and activityImage!=''">
+            AND Activity_image = #{activityImage}
+        </if>
+        <if test="activityIntroduction!=null and activityIntroduction!=''">
+            AND Activity_introduction = #{activityIntroduction}
+        </if>
+        <if test="activityMainContent!=null and activityMainContent!=''">
+            AND Activity_main_content = #{activityMainContent}
+        </if>
+        <if test="activityAddress!=null and activityAddress!=''">
+            AND Activity_address = #{activityAddress}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            AND start_time = #{startTime}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND end_time = #{endTime}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null and createTime!=''">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ActivitySetColumns">
+        <if test="activityTitle!=null and activityTitle!=''">
+            Activity_title = #{activityTitle},
+        </if>
+        <if test="activityImage!=null and activityImage!=''">
+            Activity_image = #{activityImage},
+        </if>
+        <if test="activityIntroduction!=null and activityIntroduction!=''">
+            Activity_introduction = #{activityIntroduction},
+        </if>
+        <if test="activityMainContent!=null and activityMainContent!=''">
+            Activity_main_content = #{activityMainContent},
+        </if>
+        <if test="activityAddress!=null and activityAddress!=''">
+            Activity_address = #{activityAddress},
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            start_time = #{startTime},
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            end_time = #{endTime},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null and createTime!=''">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ActivityMap" type="com.zzw.animalserve.entity.Activity">
+        <id column="Activity_id" property="activityId"/>
+        <result column="Activity_title" property="activityTitle"/>
+        <result column="Activity_image" property="activityImage"/>
+        <result column="Activity_introduction" property="activityIntroduction"/>
+        <result column="Activity_main_content" property="activityMainContent"/>
+        <result column="Activity_address" property="activityAddress"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="member" javaType="com.zzw.animalserve.entity.Member"
+                     select="com.zzw.animalserve.mapper.MemberMapper.queryById" column="create_id"></association>
+    </resultMap>
+
+    <!-- 查询表activity所有信息 -->
+    <select id="findAllActivity" resultMap="ActivityMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM activity
+    </select>
+
+    <!-- 根据主键activityId查询表activity信息 -->
+    <select id="findActivityByactivityId" resultMap="ActivityMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM activity
+        WHERE Activity_id=#{activityId}
+    </select>
+
+    <!-- 根据条件查询表activity信息 -->
+    <select id="findActivityByCondition" resultMap="ActivityMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM activity
+        WHERE 1=1
+        <include refid="ActivityByCondition"/>
+    </select>
+
+    <!-- 根据主键activityId删除表activity信息 -->
+    <delete id="deleteActivityByactivityId">
+        DELETE
+        FROM activity
+        WHERE Activity_id = #{activityId}
+    </delete>
+
+    <!-- 根据主键activityId更新表activity信息 -->
+    <update id="updateActivityByactivityId" parameterType="com.zzw.animalserve.entity.Activity">
+        UPDATE activity
+        <set>
+            <include refid="ActivitySetColumns"/>
+        </set>
+        WHERE
+        Activity_id=#{activityId}
+    </update>
+
+    <!-- 新增表activity信息 -->
+    <insert id="addActivity" useGeneratedKeys="true" keyColumn="Activity_id" keyProperty="activityId">
+        INSERT INTO activity ( Activity_id
+                             , Activity_title
+                             , Activity_image
+                             , Activity_introduction
+                             , Activity_main_content
+                             , Activity_address
+                             , start_time
+                             , end_time
+                             , create_id
+                             , create_time
+                             , update_id
+                             , delect_tag)
+        VALUES ( #{activityId}
+               , #{activityTitle}
+               , #{activityImage}
+               , #{activityIntroduction}
+               , #{activityMainContent}
+               , #{activityAddress}
+               , #{startTime}
+               , #{endTime}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{delectTag})
+    </insert>
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ActivityVideoInformationMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Video_Information_id
+        , Activity_id
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ActivityVideoInformationByCondition">
+        <if test="activityId!=null and activityId!=''">
+            AND Activity_id = #{activityId}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ActivityVideoInformationSetColumns">
+        <if test="activityId!=null and activityId!=''">
+            Activity_id = #{activityId},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ActivityVideoInformationMap" type="com.zzw.animalserve.entity.ActivityVideoInformation">
+        <id column="Video_Information_id" property="videoInformationId"/>
+        <result column="Activity_id" property="activityId"/>
+        <association property="activity" javaType="com.zzw.animalserve.entity.Activity" select="com.zzw.animalserve.mapper.ActivityMapper.findActivityByactivityId" column="Activity_id"></association>
+        <association property="videoInformation" javaType="com.zzw.animalserve.entity.VideoInformation" select="com.zzw.animalserve.mapper.VideoInformationMapper.findVideoInformationByvideoInformationId" column="Video_Information_id"></association>
+    </resultMap>
+
+    <!-- 查询表activity_video_information所有信息 -->
+    <select id="findAllActivityVideoInformation" resultMap="ActivityVideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM activity_video_information
+    </select>
+
+    <!-- 根据主键videoInformationId查询表activity_video_information信息 -->
+    <select id="findActivityVideoInformationByvideoInformationId" resultMap="ActivityVideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM activity_video_information
+        WHERE Video_Information_id=#{videoInformationId}
+    </select>
+
+    <!-- 根据条件查询表activity_video_information信息 -->
+    <select id="findActivityVideoInformationByCondition" resultMap="ActivityVideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM activity_video_information
+        WHERE 1=1
+        <include refid="ActivityVideoInformationByCondition"/>
+    </select>
+
+    <!-- 根据主键videoInformationId删除表activity_video_information信息 -->
+    <delete id="deleteActivityVideoInformationByvideoInformationId">
+        DELETE
+        FROM activity_video_information
+        WHERE Video_Information_id = #{videoInformationId}
+    </delete>
+
+    <!-- 根据主键videoInformationId更新表activity_video_information信息 -->
+    <update id="updateActivityVideoInformationByvideoInformationId"
+            parameterType="com.zzw.animalserve.entity.ActivityVideoInformation">
+        UPDATE activity_video_information
+        <set>
+            <include refid="ActivityVideoInformationSetColumns"/>
+        </set>
+        WHERE
+        Video_Information_id=#{videoInformationId}
+    </update>
+
+    <!-- 新增表activity_video_information信息 -->
+    <insert id="addActivityVideoInformation">
+        INSERT INTO activity_video_information ( Video_Information_id
+                                               , Activity_id)
+        VALUES ( #{videoInformationId}
+               , #{activityId})
+    </insert>
+</mapper>

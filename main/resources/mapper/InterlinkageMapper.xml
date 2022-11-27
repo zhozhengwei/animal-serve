@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.InterlinkageMapper">
+
+    <!-- 通用设置 -->
+        <!-- 通用查询列 -->
+        <sql id="Base_Column_List">
+            Interlinkage_id, Interlinkage_name, Interlinkage_url, Interlinkage_content, create_id, create_time, update_id, update_time, delect_tag
+        </sql>
+
+        <!-- 通用条件列 -->
+        <sql id="InterlinkageByCondition">
+                    <if test="interlinkageName!=null and interlinkageName!=''">
+                        AND Interlinkage_name = #{interlinkageName}
+                    </if>
+                    <if test="interlinkageUrl!=null and interlinkageUrl!=''">
+                        AND Interlinkage_url = #{interlinkageUrl}
+                    </if>
+                    <if test="interlinkageContent!=null and interlinkageContent!=''">
+                        AND Interlinkage_content = #{interlinkageContent}
+                    </if>
+                    <if test="createId!=null and createId!=''">
+                        AND create_id = #{createId}
+                    </if>
+                    <if test="createTime!=null">
+                        AND create_time = #{createTime}
+                    </if>
+                    <if test="updateId!=null and updateId!=''">
+                        AND update_id = #{updateId}
+                    </if>
+                    <if test="updateTime!=null">
+                        AND update_time = #{updateTime}
+                    </if>
+                    <if test="delectTag!=null and delectTag!=''">
+                        AND delect_tag = #{delectTag}
+                    </if>
+        </sql>
+
+        <!-- 通用设置列 -->
+        <sql id="InterlinkageSetColumns">
+                    <if test="interlinkageName!=null and interlinkageName!=''">
+                        Interlinkage_name = #{interlinkageName},
+                    </if>
+                    <if test="interlinkageUrl!=null and interlinkageUrl!=''">
+                        Interlinkage_url = #{interlinkageUrl},
+                    </if>
+                    <if test="interlinkageContent!=null and interlinkageContent!=''">
+                        Interlinkage_content = #{interlinkageContent},
+                    </if>
+                    <if test="createId!=null and createId!=''">
+                        create_id = #{createId},
+                    </if>
+                    <if test="createTime!=null">
+                        create_time = #{createTime},
+                    </if>
+                    <if test="updateId!=null and updateId!=''">
+                        update_id = #{updateId},
+                    </if>
+                    <if test="updateTime!=null">
+                        update_time = #{updateTime},
+                    </if>
+                    <if test="delectTag!=null and delectTag!=''">
+                        delect_tag = #{delectTag},
+                    </if>
+        </sql>
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="InterlinkageMap" type="com.zzw.animalserve.entity.Interlinkage">
+                    <id column="Interlinkage_id" property="interlinkageId"/>
+                    <result column="Interlinkage_name" property="interlinkageName"/>
+                    <result column="Interlinkage_url" property="interlinkageUrl"/>
+                    <result column="Interlinkage_content" property="interlinkageContent"/>
+                    <result column="create_id" property="createId"/>
+                    <result column="create_time" property="createTime"/>
+                    <result column="update_id" property="updateId"/>
+                    <result column="update_time" property="updateTime"/>
+                    <result column="delect_tag" property="delectTag"/>
+        </resultMap>
+
+    <!-- 查询表interlinkage所有信息 -->
+    <select id="findAllInterlinkage" resultMap="InterlinkageMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM interlinkage
+    </select>
+
+            <!-- 根据主键interlinkageId查询表interlinkage信息 -->
+            <select id="findInterlinkageByinterlinkageId" resultMap="InterlinkageMap">
+                SELECT
+                <include refid="Base_Column_List"/>
+                FROM interlinkage
+                WHERE Interlinkage_id=#{interlinkageId}
+            </select>
+
+    <!-- 根据条件查询表interlinkage信息 -->
+    <select id="findInterlinkageByCondition" resultMap="InterlinkageMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM interlinkage
+        WHERE 1=1
+        <include refid="InterlinkageByCondition" />
+    </select>
+
+            <!-- 根据主键interlinkageId删除表interlinkage信息 -->
+            <delete id="deleteInterlinkageByinterlinkageId">
+                DELETE FROM
+                interlinkage
+                WHERE Interlinkage_id=#{interlinkageId}
+            </delete>
+
+            <!-- 根据主键interlinkageId更新表interlinkage信息 -->
+            <update id="updateInterlinkageByinterlinkageId" parameterType="com.zzw.animalserve.entity.Interlinkage">
+                UPDATE interlinkage
+                <set>
+                    <include refid="InterlinkageSetColumns"/>
+                </set>
+                WHERE
+                Interlinkage_id=#{interlinkageId}
+            </update>
+
+            <!-- 新增表interlinkage信息 -->
+            <insert id="addInterlinkage">
+                INSERT INTO interlinkage (
+                    Interlinkage_id
+                    ,Interlinkage_name
+                    ,Interlinkage_url
+                    ,Interlinkage_content
+                    ,create_id
+                    ,create_time
+                    ,update_id
+                    ,update_time
+                    ,delect_tag
+                ) VALUES (
+                    #{interlinkageId}
+                    ,#{interlinkageName}
+                    ,#{interlinkageUrl}
+                    ,#{interlinkageContent}
+                    ,#{createId}
+                    ,#{createTime}
+                    ,#{updateId}
+                    ,#{updateTime}
+                    ,#{delectTag}
+                )
+            </insert>
+</mapper>

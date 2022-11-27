@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ApplyVolunteerMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Apply_Volunteer_id
+        , Apply_Volunteer_name, Apply_Volunteer_email, Apply_Volunteer_address, Apply_Volunteer_introduction, Apply_Volunteer_skill_introduction, Apply_Volunteer_status, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ApplyVolunteerByCondition">
+        <if test="applyVolunteerName!=null and applyVolunteerName!=''">
+            AND Apply_Volunteer_name = #{applyVolunteerName}
+        </if>
+        <if test="applyVolunteerEmail!=null and applyVolunteerEmail!=''">
+            AND Apply_Volunteer_email = #{applyVolunteerEmail}
+        </if>
+        <if test="applyVolunteerAddress!=null and applyVolunteerAddress!=''">
+            AND Apply_Volunteer_address = #{applyVolunteerAddress}
+        </if>
+        <if test="applyVolunteerIntroduction!=null and applyVolunteerIntroduction!=''">
+            AND Apply_Volunteer_introduction = #{applyVolunteerIntroduction}
+        </if>
+        <if test="applyVolunteerSkillIntroduction!=null and applyVolunteerSkillIntroduction!=''">
+            AND Apply_Volunteer_skill_introduction = #{applyVolunteerSkillIntroduction}
+        </if>
+        <if test="applyVolunteerStatus!=null and applyVolunteerStatus!=''">
+            AND Apply_Volunteer_status = #{applyVolunteerStatus}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ApplyVolunteerSetColumns">
+        <if test="applyVolunteerName!=null and applyVolunteerName!=''">
+            Apply_Volunteer_name = #{applyVolunteerName},
+        </if>
+        <if test="applyVolunteerEmail!=null and applyVolunteerEmail!=''">
+            Apply_Volunteer_email = #{applyVolunteerEmail},
+        </if>
+        <if test="applyVolunteerAddress!=null and applyVolunteerAddress!=''">
+            Apply_Volunteer_address = #{applyVolunteerAddress},
+        </if>
+        <if test="applyVolunteerIntroduction!=null and applyVolunteerIntroduction!=''">
+            Apply_Volunteer_introduction = #{applyVolunteerIntroduction},
+        </if>
+        <if test="applyVolunteerSkillIntroduction!=null and applyVolunteerSkillIntroduction!=''">
+            Apply_Volunteer_skill_introduction = #{applyVolunteerSkillIntroduction},
+        </if>
+        <if test="applyVolunteerStatus!=null and applyVolunteerStatus!=''">
+            Apply_Volunteer_status = #{applyVolunteerStatus},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ApplyVolunteerMap" type="com.zzw.animalserve.entity.ApplyVolunteer">
+        <id column="Apply_Volunteer_id" property="applyVolunteerId"/>
+        <result column="Apply_Volunteer_name" property="applyVolunteerName"/>
+        <result column="Apply_Volunteer_email" property="applyVolunteerEmail"/>
+        <result column="Apply_Volunteer_address" property="applyVolunteerAddress"/>
+        <result column="Apply_Volunteer_introduction" property="applyVolunteerIntroduction"/>
+        <result column="Apply_Volunteer_skill_introduction" property="applyVolunteerSkillIntroduction"/>
+        <result column="Apply_Volunteer_status" property="applyVolunteerStatus"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="member" javaType="com.zzw.animalserve.entity.Member"
+                     select="com.zzw.animalserve.mapper.MemberMapper.queryById" column="create_id"></association>
+    </resultMap>
+
+    <!-- 查询表apply_volunteer所有信息 -->
+    <select id="findAllApplyVolunteer" resultMap="ApplyVolunteerMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM apply_volunteer
+    </select>
+
+    <!-- 根据主键applyVolunteerId查询表apply_volunteer信息 -->
+    <select id="findApplyVolunteerByapplyVolunteerId" resultMap="ApplyVolunteerMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM apply_volunteer
+        WHERE Apply_Volunteer_id=#{applyVolunteerId}
+    </select>
+
+    <!-- 根据条件查询表apply_volunteer信息 -->
+    <select id="findApplyVolunteerByCondition" resultMap="ApplyVolunteerMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM apply_volunteer
+        WHERE 1=1
+        <include refid="ApplyVolunteerByCondition"/>
+    </select>
+
+    <!-- 根据主键applyVolunteerId删除表apply_volunteer信息 -->
+    <delete id="deleteApplyVolunteerByapplyVolunteerId">
+        DELETE
+        FROM apply_volunteer
+        WHERE Apply_Volunteer_id = #{applyVolunteerId}
+    </delete>
+
+    <!-- 根据主键applyVolunteerId更新表apply_volunteer信息 -->
+    <update id="updateApplyVolunteerByapplyVolunteerId" parameterType="com.zzw.animalserve.entity.ApplyVolunteer">
+        UPDATE apply_volunteer
+        <set>
+            <include refid="ApplyVolunteerSetColumns"/>
+        </set>
+        WHERE
+        Apply_Volunteer_id=#{applyVolunteerId}
+    </update>
+
+    <!-- 新增表apply_volunteer信息 -->
+    <insert id="addApplyVolunteer">
+        INSERT INTO apply_volunteer ( Apply_Volunteer_id
+                                    , Apply_Volunteer_name
+                                    , Apply_Volunteer_email
+                                    , Apply_Volunteer_address
+                                    , Apply_Volunteer_introduction
+                                    , Apply_Volunteer_skill_introduction
+                                    , Apply_Volunteer_status
+                                    , create_id
+                                    , create_time
+                                    , update_id
+                                    , update_time
+                                    , delect_tag)
+        VALUES ( #{applyVolunteerId}
+               , #{applyVolunteerName}
+               , #{applyVolunteerEmail}
+               , #{applyVolunteerAddress}
+               , #{applyVolunteerIntroduction}
+               , #{applyVolunteerSkillIntroduction}
+               , #{applyVolunteerStatus}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

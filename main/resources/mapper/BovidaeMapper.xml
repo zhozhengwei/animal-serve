@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.BovidaeMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Bovidae_id
+        , Bovidae_name, ARTIODACTYLA_id, Mammalia_id, Chordata_id, Animalia_id, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="BovidaeByCondition">
+        <if test="bovidaeName!=null and bovidaeName!=''">
+            AND Bovidae_name = #{bovidaeName}
+        </if>
+        <if test="artiodactylaId!=null and artiodactylaId!=''">
+            AND ARTIODACTYLA_id = #{artiodactylaId}
+        </if>
+        <if test="mammaliaId!=null and mammaliaId!=''">
+            AND Mammalia_id = #{mammaliaId}
+        </if>
+        <if test="chordataId!=null and chordataId!=''">
+            AND Chordata_id = #{chordataId}
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            AND Animalia_id = #{animaliaId}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="BovidaeSetColumns">
+        <if test="bovidaeName!=null and bovidaeName!=''">
+            Bovidae_name = #{bovidaeName},
+        </if>
+        <if test="artiodactylaId!=null and artiodactylaId!=''">
+            ARTIODACTYLA_id = #{artiodactylaId},
+        </if>
+        <if test="mammaliaId!=null and mammaliaId!=''">
+            Mammalia_id = #{mammaliaId},
+        </if>
+        <if test="chordataId!=null and chordataId!=''">
+            Chordata_id = #{chordataId},
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            Animalia_id = #{animaliaId},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BovidaeMap" type="com.zzw.animalserve.entity.Bovidae">
+        <id column="Bovidae_id" property="bovidaeId"/>
+        <result column="Bovidae_name" property="bovidaeName"/>
+        <result column="ARTIODACTYLA_id" property="artiodactylaId"/>
+        <result column="Mammalia_id" property="mammaliaId"/>
+        <result column="Chordata_id" property="chordataId"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <resultMap id="BovidaeMapResult" type="com.zzw.animalserve.entity.Bovidae">
+        <id column="Bovidae_id" property="bovidaeId"/>
+        <result column="Bovidae_name" property="bovidaeName"/>
+        <result column="ARTIODACTYLA_id" property="artiodactylaId"/>
+        <result column="Mammalia_id" property="mammaliaId"/>
+        <result column="Chordata_id" property="chordataId"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="animalia" javaType="com.zzw.animalserve.entity.Animalia" select="com.zzw.animalserve.mapper.AnimaliaMapper.findAnimaliaByanimaliaId" column="Animalia_id"></association>
+        <association property="chordata" javaType="com.zzw.animalserve.entity.Chordata" select="com.zzw.animalserve.mapper.ChordataMapper.findChordataBychordataId" column="Chordata_id"></association>
+        <association property="mammalia" javaType="com.zzw.animalserve.entity.Mammalia" select="com.zzw.animalserve.mapper.MammaliaMapper.findMammaliaBymammaliaId" column="Mammalia_id"></association>
+        <association property="artiodactyla" javaType="com.zzw.animalserve.entity.Artiodactyla" select="com.zzw.animalserve.mapper.ArtiodactylaMapper.findArtiodactylaByartiodactylaId" column="ARTIODACTYLA_id"></association>
+<!--        <collection property="bosList" javaType="com.zzw.animalserve.entity.Bos" select="com.zzw.animalserve.mapper.BosMapper.findBosBybovidaeId" column="Bovidae_id"></collection>-->
+    </resultMap>
+
+
+    <!-- 查询表bovidae所有信息 -->
+    <select id="findAllBovidae" resultMap="BovidaeMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bovidae
+    </select>
+
+    <!-- 根据主键bovidaeId查询表bovidae信息 -->
+    <select id="findBovidaeBybovidaeId" resultMap="BovidaeMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bovidae
+        WHERE Bovidae_id=#{bovidaeId}
+    </select>
+
+    <!-- 根据主键bovidaeId查询表bovidae信息 -->
+    <select id="findBovidaeBybovidaeIdList" resultMap="BovidaeMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bovidae
+        WHERE Bovidae_id=#{bovidaeId}
+    </select>
+
+    <!-- 根据主键bovidaeId查询表bovidae信息 -->
+    <select id="findBovidaeByartiodactylaId" resultMap="BovidaeMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bovidae
+        WHERE ARTIODACTYLA_id=#{artiodactylaId}
+    </select>
+
+    <!-- 根据条件查询表bovidae信息 -->
+    <select id="findBovidaeByCondition" resultMap="BovidaeMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM bovidae
+        WHERE 1=1
+        <include refid="BovidaeByCondition"/>
+    </select>
+
+    <!-- 根据主键bovidaeId删除表bovidae信息 -->
+    <delete id="deleteBovidaeBybovidaeId">
+        DELETE
+        FROM bovidae
+        WHERE Bovidae_id = #{bovidaeId}
+    </delete>
+
+    <!-- 根据主键bovidaeId更新表bovidae信息 -->
+    <update id="updateBovidaeBybovidaeId" parameterType="com.zzw.animalserve.entity.Bovidae">
+        UPDATE bovidae
+        <set>
+            <include refid="BovidaeSetColumns"/>
+        </set>
+        WHERE
+        Bovidae_id=#{bovidaeId}
+    </update>
+
+    <!-- 新增表bovidae信息 -->
+    <insert id="addBovidae">
+        INSERT INTO bovidae ( Bovidae_id
+                            , Bovidae_name
+                            , ARTIODACTYLA_id
+                            , Mammalia_id
+                            , Chordata_id
+                            , Animalia_id
+                            , create_id
+                            , create_time
+                            , update_id
+                            , update_time
+                            , delect_tag)
+        VALUES ( #{bovidaeId}
+               , #{bovidaeName}
+               , #{artiodactylaId}
+               , #{mammaliaId}
+               , #{chordataId}
+               , #{animaliaId}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

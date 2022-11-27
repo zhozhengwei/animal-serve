@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.DonationRecordMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Donation_Record_id
+        , Donation_Record_name, Donation_Record_email, Donation_Record_phone, Donation_Record_address, Donation_Record_amount , Donation_Record_type,
+                                   Donation_Record_denote,Donation_Record_trade , Donation_Record_originname, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="DonationRecordByCondition">
+        <if test="donationRecordName!=null and donationRecordName!=''">
+            AND Donation_Record_name = #{donationRecordName}
+        </if>
+        <if test="donationRecordEmail!=null and donationRecordEmail!=''">
+            AND Donation_Record_email = #{donationRecordEmail}
+        </if>
+        <if test="donationRecordPhone!=null and donationRecordPhone!=''">
+            AND Donation_Record_phone = #{donationRecordPhone}
+        </if>
+        <if test="donationRecordAddress!=null and donationRecordAddress!=''">
+            AND Donation_Record_address = #{donationRecordAddress}
+        </if>
+        <if test="donationRecordAmount!=null and donationRecordAmount!=''">
+            AND Donation_Record_amount = #{donationRecordAmount}
+        </if>
+        <if test="donationRecordType!=null and donationRecordType!=''">
+            AND Donation_Record_type = #{donationRecordType}
+        </if>
+        <if test="donationRecordDenote!=null and donationRecordDenote!=''">
+            AND Donation_Record_denote = #{donationRecordDenote}
+        </if>
+        <if test="donationRecordTrade!=null and donationRecordTrade!=''">
+            AND Donation_Record_trade = #{donationRecordTrade}
+        </if>
+        <if test="donationRecordOriginName!=null and donationRecordOriginName!=''">
+            AND Donation_Record_originname = #{donationRecordOriginName}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="DonationRecordSetColumns">
+        <if test="donationRecordName!=null and donationRecordName!=''">
+            Donation_Record_name = #{donationRecordName},
+        </if>
+        <if test="donationRecordEmail!=null and donationRecordEmail!=''">
+            Donation_Record_email = #{donationRecordEmail},
+        </if>
+        <if test="donationRecordPhone!=null and donationRecordPhone!=''">
+            Donation_Record_phone = #{donationRecordPhone},
+        </if>
+        <if test="donationRecordAddress!=null and donationRecordAddress!=''">
+            Donation_Record_address = #{donationRecordAddress},
+        </if>
+        <if test="donationRecordAmount!=null and donationRecordAmount!=''">
+            Donation_Record_amount = #{donationRecordAmount},
+        </if>
+        <if test="donationRecordType!=null and donationRecordType!=''">
+            Donation_Record_type = #{donationRecordType},
+        </if>
+        <if test="donationRecordDenote!=null and donationRecordDenote!=''">
+            Donation_Record_denote = #{donationRecordDenote},
+        </if>
+        <if test="donationRecordTrade!=null and donationRecordTrade!=''">
+            Donation_Record_trade = #{donationRecordTrade},
+        </if>
+        <if test="donationRecordOriginName!=null and donationRecordOriginName!=''">
+            Donation_Record_originname = #{donationRecordOriginName},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DonationRecordMap" type="com.zzw.animalserve.entity.DonationRecord">
+        <id column="Donation_Record_id" property="donationRecordId"/>
+        <result column="Donation_Record_name" property="donationRecordName"/>
+        <result column="Donation_Record_email" property="donationRecordEmail"/>
+        <result column="Donation_Record_phone" property="donationRecordPhone"/>
+        <result column="Donation_Record_address" property="donationRecordAddress"/>
+        <result column="Donation_Record_amount" property="donationRecordAmount"/>
+        <result column="Donation_Record_type" property="donationRecordType"/>
+        <result column="Donation_Record_denote" property="donationRecordDenote"/>
+        <result column="Donation_Record_trade" property="donationRecordTrade"/>
+        <result column="Donation_Record_originname" property="donationRecordOriginName"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="member" javaType="com.zzw.animalserve.entity.Member"
+                     select="com.zzw.animalserve.mapper.MemberMapper.queryById" column="create_id"></association>
+    </resultMap>
+
+    <!-- 查询表donation_record所有信息 -->
+    <select id="findAllDonationRecord" resultMap="DonationRecordMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM donation_record
+    </select>
+
+    <!-- 根据主键donationRecordId查询表donation_record信息 -->
+    <select id="findDonationRecordBydonationRecordId" resultMap="DonationRecordMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM donation_record
+        WHERE Donation_Record_id=#{donationRecordId}
+    </select>
+
+    <select id="findDonationRecordBydonationTrade" resultMap="DonationRecordMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM donation_record
+        WHERE Donation_Record_trade=#{donationRecordTrade}
+    </select>
+
+    <!-- 根据条件查询表donation_record信息 -->
+    <select id="findDonationRecordByCondition" resultMap="DonationRecordMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM donation_record
+        WHERE 1=1
+        <include refid="DonationRecordByCondition"/>
+    </select>
+
+    <!-- 根据主键donationRecordId删除表donation_record信息 -->
+    <delete id="deleteDonationRecordBydonationRecordId">
+        DELETE
+        FROM donation_record
+        WHERE Donation_Record_id = #{donationRecordId}
+    </delete>
+
+    <!-- 根据主键donationRecordId更新表donation_record信息 -->
+    <update id="updateDonationRecordBydonationRecordId" parameterType="com.zzw.animalserve.entity.DonationRecord">
+        UPDATE donation_record
+        <set>
+            <include refid="DonationRecordSetColumns"/>
+        </set>
+        WHERE
+        Donation_Record_id=#{donationRecordId}
+    </update>
+
+    <!-- 新增表donation_record信息 -->
+    <insert id="addDonationRecord">
+        INSERT INTO donation_record ( Donation_Record_id
+                                    , Donation_Record_name
+                                    , Donation_Record_email
+                                    , Donation_Record_phone
+                                    , Donation_Record_address
+                                    , Donation_Record_amount
+                                    , Donation_Record_type
+                                    , Donation_Record_denote
+                                    , Donation_Record_trade
+                                    , Donation_Record_originname
+                                    , create_id
+                                    , create_time
+                                    , update_id
+                                    , update_time
+                                    , delect_tag)
+        VALUES ( #{donationRecordId}
+               , #{donationRecordName}
+               , #{donationRecordEmail}
+               , #{donationRecordPhone}
+               , #{donationRecordAddress}
+               , #{donationRecordAmount}
+               , #{donationRecordType}
+               , #{donationRecordDenote}
+               , #{donationRecordTrade}
+               , #{donationRecordOriginName}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

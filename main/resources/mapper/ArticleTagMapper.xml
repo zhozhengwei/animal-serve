@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ArticleTagMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Article_id
+        , Tag_id
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ArticleTagByCondition">
+        <if test="tagId!=null and tagId!=''">
+            AND Tag_id = #{tagId}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ArticleTagSetColumns">
+        <if test="tagId!=null and tagId!=''">
+            Tag_id = #{tagId},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ArticleTagMap" type="com.zzw.animalserve.entity.ArticleTag">
+        <id column="Article_id" property="articleId"/>
+        <result column="Tag_id" property="tagId"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ArticleTagMapResult" type="com.zzw.animalserve.entity.ArticleTag">
+        <id column="Article_id" property="articleId"/>
+        <result column="Tag_id" property="tagId"/>
+        <association property="tag" javaType="com.zzw.animalserve.entity.Tag" select="com.zzw.animalserve.mapper.TagMapper.findTagBytagId" column="Tag_id"/>
+    </resultMap>
+
+    <!-- 查询表article_tag所有信息 -->
+    <select id="findAllArticleTag" resultMap="ArticleTagMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_tag
+    </select>
+
+    <!-- 根据主键articleId查询表article_tag信息 -->
+    <select id="findArticleTagByarticleId"  parameterType="Integer" resultMap="ArticleTagMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_tag
+        WHERE Article_id=#{articleId}
+    </select>
+
+    <!-- 根据主键articleId查询表article_tag信息 -->
+    <select id="findArticleTagListByarticleId" parameterType="Integer" resultMap="ArticleTagMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_tag
+        WHERE Article_id=#{articleId}
+    </select>
+
+    <!-- 根据条件查询表article_tag信息 -->
+    <select id="findArticleTagByCondition" resultMap="ArticleTagMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_tag
+        WHERE 1=1
+        <include refid="ArticleTagByCondition"/>
+    </select>
+
+    <!-- 根据主键articleId删除表article_tag信息 -->
+    <delete id="deleteArticleTagByarticleId">
+        DELETE
+        FROM article_tag
+        WHERE Article_id = #{articleId}
+    </delete>
+
+    <!-- 根据主键articleId更新表article_tag信息 -->
+    <update id="updateArticleTagByarticleId" parameterType="com.zzw.animalserve.entity.ArticleTag">
+        UPDATE article_tag
+        <set>
+            <include refid="ArticleTagSetColumns"/>
+        </set>
+        WHERE
+        Article_id=#{articleId}
+    </update>
+
+    <!-- 新增表article_tag信息 -->
+    <insert id="addArticleTag">
+        INSERT INTO article_tag ( Article_id
+                                , Tag_id)
+        VALUES ( #{articleId}
+               , #{tagId})
+    </insert>
+</mapper>

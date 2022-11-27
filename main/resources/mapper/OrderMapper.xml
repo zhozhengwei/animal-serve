@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.OrderMapper">
+
+    <resultMap type="com.zzw.animalserve.entity.Orders" id="OrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="trade" column="trade" jdbcType="INTEGER"/>
+        <result property="amount" column="amount" jdbcType="NUMERIC"/>
+        <result property="buyer" column="buyer" jdbcType="VARCHAR"/>
+        <result property="paymenttime" column="paymentTime" jdbcType="TIMESTAMP"/>
+        <result property="payamount" column="payAmount" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderMap">
+        select
+            id, name, status, trade, amount, buyer, paymentTime, payAmount
+        from orders
+        where id = #{id}
+    </select>
+
+    <select id="queryByTrade" resultMap="OrderMap">
+        select
+            id, name, status, trade, amount, buyer, paymentTime, payAmount
+        from orders
+        where trade = #{trade}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderMap">
+        select
+        id, name, status, trade, amount, buyer, paymentTime, payAmount
+        from orders
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="trade != null">
+                and trade = #{trade}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="buyer != null and buyer != ''">
+                and buyer = #{buyer}
+            </if>
+            <if test="paymenttime != null">
+                and paymentTime = #{paymenttime}
+            </if>
+            <if test="payamount != null">
+                and payAmount = #{payamount}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from orders
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="trade != null">
+                and trade = #{trade}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="buyer != null and buyer != ''">
+                and buyer = #{buyer}
+            </if>
+            <if test="paymenttime != null">
+                and paymentTime = #{paymenttime}
+            </if>
+            <if test="payamount != null">
+                and payAmount = #{payamount}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into orders(name, status, trade, amount, buyer, paymentTime, payAmount)
+        values (#{name}, #{status}, #{trade}, #{amount}, #{buyer}, #{paymenttime}, #{payamount})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into orders(name, status, trade, amount, buyer, paymentTime, payAmount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.status}, #{entity.trade}, #{entity.amount}, #{entity.buyer}, #{entity.paymenttime}, #{entity.payamount})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into orders(name, status, trade, amount, buyer, paymentTime, payAmount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.status}, #{entity.trade}, #{entity.amount}, #{entity.buyer}, #{entity.paymenttime}, #{entity.payamount})
+        </foreach>
+        on duplicate key update
+        name = values(name),
+        status = values(status),
+        trade = values(trade),
+        amount = values(amount),
+        buyer = values(buyer),
+        paymentTime = values(paymentTime),
+        payAmount = values(payAmount)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update orders
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="trade != null">
+                trade = #{trade},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            <if test="buyer != null and buyer != ''">
+                buyer = #{buyer},
+            </if>
+            <if test="paymenttime != null">
+                paymentTime = #{paymenttime},
+            </if>
+            <if test="payamount != null">
+                payAmount = #{payamount},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from orders where id = #{id}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.PublicationMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Publication_id
+        , Publication_name,Publication_image ,Publication_url, Publication_introduction, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="PublicationByCondition">
+        <if test="publicationName!=null and publicationName!=''">
+            AND Publication_name = #{publicationName}
+        </if>
+        <if test="publicationImage!=null and publicationImage!=''">
+            AND Publication_image = #{publicationImage}
+        </if>
+        <if test="publicationUrl!=null and publicationUrl!=''">
+            AND Publication_url = #{publicationUrl}
+        </if>
+        <if test="publicationIntroduction!=null and publicationIntroduction!=''">
+            AND Publication_introduction = #{publicationIntroduction}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="PublicationSetColumns">
+        <if test="publicationName!=null and publicationName!=''">
+            Publication_name = #{publicationName},
+        </if>
+        <if test="publicationImage!=null and publicationImage!=''">
+            Publication_image = #{publicationImage},
+        </if>
+        <if test="publicationUrl!=null and publicationUrl!=''">
+            Publication_url = #{publicationUrl},
+        </if>
+        <if test="publicationIntroduction!=null and publicationIntroduction!=''">
+            Publication_introduction = #{publicationIntroduction},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="PublicationMap" type="com.zzw.animalserve.entity.Publication">
+        <id column="Publication_id" property="publicationId"/>
+        <result column="Publication_name" property="publicationName"/>
+        <result column="Publication_image" property="publicationImage"/>
+        <result column="Publication_url" property="publicationUrl"/>
+        <result column="Publication_introduction" property="publicationIntroduction"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 查询表publication所有信息 -->
+    <select id="findAllPublication" resultMap="PublicationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM publication
+    </select>
+
+    <!-- 根据主键publicationId查询表publication信息 -->
+    <select id="findPublicationBypublicationId" resultMap="PublicationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM publication
+        WHERE Publication_id=#{publicationId}
+    </select>
+
+    <select id="findPublicationBySearched" parameterType="string" resultMap="PublicationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM publication
+        WHERE Publication_name like '%${value}%' or Publication_introduction like '%${value}%'
+    </select>
+
+    <!-- 根据条件查询表publication信息 -->
+    <select id="findPublicationByCondition" resultMap="PublicationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM publication
+        WHERE 1=1
+        <include refid="PublicationByCondition"/>
+    </select>
+
+    <!-- 根据主键publicationId删除表publication信息 -->
+    <delete id="deletePublicationBypublicationId">
+        DELETE
+        FROM publication
+        WHERE Publication_id = #{publicationId}
+    </delete>
+
+    <!-- 根据主键publicationId更新表publication信息 -->
+    <update id="updatePublicationBypublicationId" parameterType="com.zzw.animalserve.entity.Publication">
+        UPDATE publication
+        <set>
+            <include refid="PublicationSetColumns"/>
+        </set>
+        WHERE
+        Publication_id=#{publicationId}
+    </update>
+
+    <!-- 新增表publication信息 -->
+    <insert id="addPublication">
+        INSERT INTO publication ( Publication_id
+                                , Publication_name
+                                , Publication_image
+                                , Publication_url
+                                , Publication_introduction
+                                , create_id
+                                , create_time
+                                , update_id
+                                , update_time
+                                , delect_tag)
+        VALUES ( #{publicationId}
+               , #{publicationName}
+               , #{publicationImage}
+               , #{publicationUrl}
+               , #{publicationIntroduction}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

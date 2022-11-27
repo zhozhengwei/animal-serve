@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.TagMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Tag_id
+        , Tag_title, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="TagByCondition">
+        <if test="tagTitle!=null and tagTitle!=''">
+            AND Tag_title = #{tagTitle}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="TagSetColumns">
+        <if test="tagTitle!=null and tagTitle!=''">
+            Tag_title = #{tagTitle},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="TagMap" type="com.zzw.animalserve.entity.Tag">
+        <id column="Tag_id" property="tagId"/>
+        <result column="Tag_title" property="tagTitle"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 查询表tag所有信息 -->
+    <select id="findAllTag" resultMap="TagMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tag
+    </select>
+
+    <!-- 根据主键tagId查询表tag信息 -->
+    <select id="findTagBytagId" parameterType="Integer" resultMap="TagMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tag
+        WHERE Tag_id=#{tagId}
+    </select>
+
+    <!-- 根据条件查询表tag信息 -->
+    <select id="findTagByCondition" resultMap="TagMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tag
+        WHERE 1=1
+        <include refid="TagByCondition"/>
+    </select>
+
+    <!-- 根据主键tagId删除表tag信息 -->
+    <delete id="deleteTagBytagId">
+        DELETE
+        FROM tag
+        WHERE Tag_id = #{tagId}
+    </delete>
+
+    <!-- 根据主键tagId更新表tag信息 -->
+    <update id="updateTagBytagId" parameterType="com.zzw.animalserve.entity.Tag">
+        UPDATE tag
+        <set>
+            <include refid="TagSetColumns"/>
+        </set>
+        WHERE
+        Tag_id=#{tagId}
+    </update>
+
+    <!-- 新增表tag信息 -->
+    <insert id="addTag" useGeneratedKeys="true" keyColumn="Tag_id" keyProperty="tagId">
+        INSERT INTO tag ( Tag_id
+                        , Tag_title
+                        , create_id
+                        , create_time
+                        , update_id
+                        , update_time
+                        , delect_tag)
+        VALUES ( #{tagId}
+               , #{tagTitle}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

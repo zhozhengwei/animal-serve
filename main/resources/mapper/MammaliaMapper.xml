@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.MammaliaMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Mammalia_id
+        , Mammalia_name, Chordata_id, Animalia_id, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="MammaliaByCondition">
+        <if test="mammaliaName!=null and mammaliaName!=''">
+            AND Mammalia_name = #{mammaliaName}
+        </if>
+        <if test="chordataId!=null and chordataId!=''">
+            AND Chordata_id = #{chordataId}
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            AND Animalia_id = #{animaliaId}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="MammaliaSetColumns">
+        <if test="mammaliaName!=null and mammaliaName!=''">
+            Mammalia_name = #{mammaliaName},
+        </if>
+        <if test="chordataId!=null and chordataId!=''">
+            Chordata_id = #{chordataId},
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            Animalia_id = #{animaliaId},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MammaliaMap" type="com.zzw.animalserve.entity.Mammalia">
+        <id column="Mammalia_id" property="mammaliaId"/>
+        <result column="Mammalia_name" property="mammaliaName"/>
+        <result column="Chordata_id" property="chordataId"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MammaliaMapResult" type="com.zzw.animalserve.entity.Mammalia">
+        <id column="Mammalia_id" property="mammaliaId"/>
+        <result column="Mammalia_name" property="mammaliaName"/>
+        <result column="Chordata_id" property="chordataId"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="animalia" javaType="com.zzw.animalserve.entity.Animalia" select="com.zzw.animalserve.mapper.AnimaliaMapper.findAnimaliaByanimaliaId" column="Animalia_id"></association>
+        <association property="chordata" javaType="com.zzw.animalserve.entity.Chordata" select="com.zzw.animalserve.mapper.ChordataMapper.findChordataBychordataId" column="Chordata_id"></association>
+<!--        <collection property="artiodactylaList" ofType="com.zzw.animalserve.entity.Artiodactyla" select="com.zzw.animalserve.mapper.ArtiodactylaMapper.findArtiodactylaBymammaliaId" column="Mammalia_id"></collection>-->
+    </resultMap>
+
+    <!-- 查询表mammalia所有信息 -->
+    <select id="findAllMammalia" resultMap="MammaliaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mammalia
+    </select>
+
+    <!-- 根据主键mammaliaId查询表mammalia信息 -->
+    <select id="findMammaliaBymammaliaId" resultMap="MammaliaMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mammalia
+        WHERE Mammalia_id=#{mammaliaId}
+    </select>
+
+    <!-- 根据主键mammaliaId查询表mammalia信息 -->
+    <select id="findMammaliaListBymammaliaId" resultMap="MammaliaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mammalia
+        WHERE Mammalia_id=#{mammaliaId}
+    </select>
+
+    <!-- 根据主键chordataId查询表mammalia信息 -->
+    <select id="findMammaliaBychordataId" resultMap="MammaliaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mammalia
+        WHERE Chordata_id=#{chordataId}
+    </select>
+
+<!--    返回上层信息-->
+    <select id="findMammaliaBymammaliaIdList" resultMap="MammaliaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mammalia
+        WHERE Mammalia_id=#{mammaliaId}
+    </select>
+
+    <!-- 根据条件查询表mammalia信息 -->
+    <select id="findMammaliaByCondition" resultMap="MammaliaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM mammalia
+        WHERE 1=1
+        <include refid="MammaliaByCondition"/>
+    </select>
+
+
+
+    <!-- 根据主键mammaliaId删除表mammalia信息 -->
+    <delete id="deleteMammaliaBymammaliaId">
+        DELETE
+        FROM mammalia
+        WHERE Mammalia__id = #{mammaliaId}
+    </delete>
+
+    <!-- 根据主键mammaliaId更新表mammalia信息 -->
+    <update id="updateMammaliaBymammaliaId" parameterType="com.zzw.animalserve.entity.Mammalia">
+        UPDATE mammalia
+        <set>
+            <include refid="MammaliaSetColumns"/>
+        </set>
+        WHERE
+        Mammalia_id=#{mammaliaId}
+    </update>
+
+    <!-- 新增表mammalia信息 -->
+    <insert id="addMammalia">
+        INSERT INTO mammalia ( Mammalia_id
+                             , Mammalia_name
+                             , Chordata_id
+                             , Animalia_id
+                             , create_id
+                             , create_time
+                             , update_id
+                             , update_time
+                             , delect_tag)
+        VALUES ( #{mammaliaId}
+               , #{mammaliaName}
+               , #{chordataId}
+               , #{animaliaId}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

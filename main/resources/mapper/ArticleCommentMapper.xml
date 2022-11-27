@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ArticleCommentMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Article_id
+        , Comment_id
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ArticleCommentByCondition">
+        <if test="commentId!=null and commentId!=''">
+            AND Comment_id = #{commentId}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ArticleCommentSetColumns">
+        <if test="commentId!=null and commentId!=''">
+            Comment_id = #{commentId},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ArticleCommentMap" type="com.zzw.animalserve.entity.ArticleComment">
+        <id column="Article_id" property="articleId"/>
+        <result column="Comment_id" property="commentId"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ArticleCommentMapResult" type="com.zzw.animalserve.entity.ArticleComment">
+        <id column="Article_id" property="articleId"/>
+        <result column="Comment_id" property="commentId"/>
+        <association property="comment" javaType="com.zzw.animalserve.entity.Comment" select="com.zzw.animalserve.mapper.CommentMapper.findCommentBycommentId" column="Comment_id"></association>
+    </resultMap>
+
+    <!-- 查询表article_comment所有信息 -->
+    <select id="findAllArticleComment" resultMap="ArticleCommentMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_comment
+    </select>
+
+    <!-- 根据主键articleId查询表article_comment信息 -->
+    <select id="findArticleCommentByarticleId" parameterType="Long" resultMap="ArticleCommentMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_comment
+        WHERE Article_id=#{articleId}
+    </select>
+
+    <!-- 根据主键articleId查询表article_comment信息 -->
+    <select id="findArticleCommentListByarticleId" parameterType="Long" resultMap="ArticleCommentMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_comment
+        WHERE Article_id=#{articleId}
+    </select>
+
+    <!-- 根据条件查询表article_comment信息 -->
+    <select id="findArticleCommentByCondition" resultMap="ArticleCommentMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article_comment
+        WHERE 1=1
+        <include refid="ArticleCommentByCondition"/>
+    </select>
+
+    <!-- 根据主键articleId删除表article_comment信息 -->
+    <delete id="deleteArticleCommentByarticleId">
+        DELETE
+        FROM article_comment
+        WHERE Article_id = #{articleId}
+    </delete>
+
+    <!-- 根据主键articleId更新表article_comment信息 -->
+    <update id="updateArticleCommentByarticleId" parameterType="com.zzw.animalserve.entity.ArticleComment">
+        UPDATE article_comment
+        <set>
+            <include refid="ArticleCommentSetColumns"/>
+        </set>
+        WHERE
+        Article_id=#{articleId}
+    </update>
+
+    <!-- 新增表article_comment信息 -->
+    <insert id="addArticleComment">
+        INSERT INTO article_comment ( Article_id
+                                    , Comment_id)
+        VALUES ( #{articleId}
+               , #{commentId})
+    </insert>
+</mapper>

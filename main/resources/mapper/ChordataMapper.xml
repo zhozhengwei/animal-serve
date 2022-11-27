@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ChordataMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Chordata_id
+        , Chordata_name, Animalia_id, assort_sit_id, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ChordataByCondition">
+        <if test="chordataName!=null and chordataName!=''">
+            AND Chordata_name = #{chordataName}
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            AND Animalia_id = #{animaliaId}
+        </if>
+        <if test="assortSitId!=null and assortSitId!=''">
+            AND assort_sit_id = #{assortSitId}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ChordataSetColumns">
+        <if test="chordataName!=null and chordataName!=''">
+            Chordata_name = #{chordataName},
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            Animalia_id = #{animaliaId},
+        </if>
+        <if test="assortSitId!=null and assortSitId!=''">
+            assort_sit_id = #{assortSitId},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ChordataMap" type="com.zzw.animalserve.entity.Chordata">
+        <id column="Chordata_id" property="chordataId"/>
+        <result column="Chordata_name" property="chordataName"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="assort_sit_id" property="assortSitId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ChordataMapResult" type="com.zzw.animalserve.entity.Chordata">
+        <id column="Chordata_id" property="chordataId"/>
+        <result column="Chordata_name" property="chordataName"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="assort_sit_id" property="assortSitId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+<!--        <association property="animalia" javaType="com.zzw.animalserve.entity.Animalia" select="com.zzw.animalserve.mapper.AnimaliaMapper.findAnimaliaByanimaliaId" column="Animalia_id"></association>-->
+    </resultMap>
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ChordataMapResultSome" type="com.zzw.animalserve.entity.Chordata">
+        <id column="Chordata_id" property="chordataId"/>
+        <result column="Chordata_name" property="chordataName"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="assort_sit_id" property="assortSitId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="animalia" javaType="com.zzw.animalserve.entity.Animalia" select="com.zzw.animalserve.mapper.AnimaliaMapper.findAnimaliaByanimaliaId" column="Animalia_id"></association>
+<!--        <collection property="mammaliaList" ofType="com.zzw.animalserve.entity.Mammalia" select="com.zzw.animalserve.mapper.MammaliaMapper.findMammaliaBychordataId" column="chordataId"></collection>-->
+    </resultMap>
+
+
+    <!-- 查询表chordata所有信息 -->
+    <select id="findAllChordata" resultMap="ChordataMapResultSome">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM chordata
+    </select>
+
+    <!-- 根据主键animaliaId查询表chordata信息 -->
+    <select id="findChordataByanimaliaId" resultMap="ChordataMapResultSome">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM chordata
+        WHERE Animalia_id=#{animaliaId}
+    </select>
+
+    <!-- 根据主键assortSitId查询表chordata信息 -->
+    <select id="findChordataByassortSitId" resultMap="ChordataMapResultSome">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM chordata
+        WHERE assort_sit_id=#{assortSitId}
+    </select>
+
+    <!-- 根据主键chordataId查询表chordata信息 -->
+    <select id="findChordataBychordataId" resultMap="ChordataMapResultSome">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM chordata
+        WHERE Chordata_id=#{chordataId}
+    </select>
+
+    <!-- 根据主键chordataId查询表chordata信息 -->
+    <select id="findChordataByChordataIdList" resultMap="ChordataMapResultSome">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM chordata
+        WHERE Chordata_id=#{chordataId}
+    </select>
+
+    <!-- 根据条件查询表chordata信息 -->
+    <select id="findChordataByCondition" resultMap="ChordataMapResultSome">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM chordata
+        WHERE 1=1
+        <include refid="ChordataByCondition"/>
+    </select>
+
+    <!-- 根据主键chordataId删除表chordata信息 -->
+    <delete id="deleteChordataBychordataId">
+        DELETE
+        FROM chordata
+        WHERE Chordata_id = #{chordataId}
+    </delete>
+
+    <!-- 根据主键chordataId更新表chordata信息 -->
+    <update id="updateChordataBychordataId" parameterType="com.zzw.animalserve.entity.Chordata">
+        UPDATE chordata
+        <set>
+            <include refid="ChordataSetColumns"/>
+        </set>
+        WHERE
+        Chordata_id=#{chordataId}
+    </update>
+
+    <!-- 新增表chordata信息 -->
+    <insert id="addChordata">
+        INSERT INTO chordata ( Chordata_id
+                             , Chordata_name
+                             , Animalia_id
+                             , assort_sit_id
+                             , create_id
+                             , create_time
+                             , update_id
+                             , update_time
+                             , delect_tag)
+        VALUES ( #{chordataId}
+               , #{chordataName}
+               , #{animaliaId}
+               , #{assortSitId}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

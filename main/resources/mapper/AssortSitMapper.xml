@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.AssortSitMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        assort_sit_id
+        , assort_sit_name, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="AssortSitByCondition">
+        <if test="assortSitName!=null and assortSitName!=''">
+            AND assort_sit_name = #{assortSitName}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="AssortSitSetColumns">
+        <if test="assortSitName!=null and assortSitName!=''">
+            assort_sit_name = #{assortSitName},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="AssortSitMap" type="com.zzw.animalserve.entity.AssortSit">
+        <id column="assort_sit_id" property="assortSitId"/>
+        <result column="assort_sit_name" property="assortSitName"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+
+    <resultMap id="AssortSitMapResult" type="com.zzw.animalserve.entity.AssortSit">
+        <id column="assort_sit_id" property="assortSitId"/>
+        <result column="assort_sit_name" property="assortSitName"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <collection property="chordataList" ofType="com.zzw.animalserve.entity.Chordata"
+                    select="com.zzw.animalserve.mapper.ChordataMapper.findChordataByassortSitId"
+                    column="assortSitId"></collection>
+    </resultMap>
+
+    <!-- 查询表assort_sit所有信息 -->
+    <select id="findAllAssortSit" resultMap="AssortSitMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM assort_sit
+    </select>
+
+    <!-- 根据主键assortSitId查询表assort_sit信息 -->
+    <select id="findAssortSitByassortSitId" resultMap="AssortSitMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM assort_sit
+        WHERE assort_sit_id=#{assortSitId}
+    </select>
+
+    <!-- 根据条件查询表assort_sit信息 -->
+    <select id="findAssortSitByCondition" resultMap="AssortSitMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM assort_sit
+        WHERE 1=1
+        <include refid="AssortSitByCondition"/>
+    </select>
+
+    <!-- 根据主键assortSitId删除表assort_sit信息 -->
+    <delete id="deleteAssortSitByassortSitId">
+        DELETE
+        FROM assort_sit
+        WHERE assort_sit_id = #{assortSitId}
+    </delete>
+
+    <!-- 根据主键assortSitId更新表assort_sit信息 -->
+    <update id="updateAssortSitByassortSitId" parameterType="com.zzw.animalserve.entity.AssortSit">
+        UPDATE assort_sit
+        <set>
+            <include refid="AssortSitSetColumns"/>
+        </set>
+        WHERE
+        assort_sit_id=#{assortSitId}
+    </update>
+
+    <!-- 新增表assort_sit信息 -->
+    <insert id="addAssortSit">
+        INSERT INTO assort_sit ( assort_sit_id
+                               , assort_sit_name
+                               , create_id
+                               , create_time
+                               , update_id
+                               , update_time
+                               , delect_tag)
+        VALUES ( #{assortSitId}
+               , #{assortSitName}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

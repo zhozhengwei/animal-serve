@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.BookMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        book_id
+        , book_name,book_image ,book_url, book_introduction, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="BookByCondition">
+        <if test="bookName!=null and bookName!=''">
+            AND book_name = #{bookName}
+        </if>
+        <if test="bookImage!=null and bookImage!=''">
+            AND book_image = #{bookImage}
+        </if>
+        <if test="bookUrl!=null and bookUrl!=''">
+            AND book_url = #{bookUrl}
+        </if>
+        <if test="bookIntroduction!=null and bookIntroduction!=''">
+            AND book_introduction = #{bookIntroduction}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="BookSetColumns">
+        <if test="bookName!=null and bookName!=''">
+            book_name = #{bookName},
+        </if>
+        <if test="bookImage!=null and bookImage!=''">
+            book_image = #{bookImage},
+        </if>
+        <if test="bookUrl!=null and bookUrl!=''">
+            book_url = #{bookUrl},
+        </if>
+        <if test="bookIntroduction!=null and bookIntroduction!=''">
+            book_introduction = #{bookIntroduction},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BookMap" type="com.zzw.animalserve.entity.Book">
+        <id column="book_id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="book_image" property="bookImage"/>
+        <result column="book_url" property="bookUrl"/>
+        <result column="book_introduction" property="bookIntroduction"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 查询表book所有信息 -->
+    <select id="findAllBook" resultMap="BookMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+    </select>
+
+    <!-- 根据主键bookId查询表book信息 -->
+    <select id="findBookBybookId" resultMap="BookMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+        WHERE book_id=#{bookId}
+    </select>
+
+    <select id="findBookBySearched" parameterType="string" resultMap="BookMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+        WHERE book_name like '%${value}%' or book_introduction like '%${value}%'
+    </select>
+
+    <!-- 根据条件查询表book信息 -->
+    <select id="findBookByCondition" resultMap="BookMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+        WHERE 1=1
+        <include refid="BookByCondition"/>
+    </select>
+
+    <!-- 根据主键bookId删除表book信息 -->
+    <delete id="deleteBookBybookId">
+        DELETE
+        FROM book
+        WHERE book_id = #{bookId}
+    </delete>
+
+    <!-- 根据主键bookId更新表book信息 -->
+    <update id="updateBookBybookId" parameterType="com.zzw.animalserve.entity.Book">
+        UPDATE book
+        <set>
+            <include refid="BookSetColumns"/>
+        </set>
+        WHERE
+        book_id=#{bookId}
+    </update>
+
+    <!-- 新增表book信息 -->
+    <insert id="addBook">
+        INSERT INTO book ( book_id
+                         , book_name
+                         , book_image
+                         , book_url
+                         , book_introduction
+                         , create_id
+                         , create_time
+                         , update_id
+                         , update_time
+                         , delect_tag)
+        VALUES ( #{bookId}
+               , #{bookName}
+               , #{bookImage}
+               , #{bookUrl}
+               , #{bookIntroduction}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

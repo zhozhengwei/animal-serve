@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ApplyMemberMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Apply_Member_id
+        , Apply_Member_name, Apply_Member_email, Apply_Member_address, Apply_Member_phone, Apply_Member_introduction, Apply_Member_status, create_time, update_time, update_id, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ApplyMemberByCondition">
+        <if test="applyMemberName!=null and applyMemberName!=''">
+            AND Apply_Member_name = #{applyMemberName}
+        </if>
+        <if test="applyMemberEmail!=null and applyMemberEmail!=''">
+            AND Apply_Member_email = #{applyMemberEmail}
+        </if>
+        <if test="applyMemberAddress!=null and applyMemberAddress!=''">
+            AND Apply_Member_address = #{applyMemberAddress}
+        </if>
+        <if test="applyMemberPhone!=null and applyMemberPhone!=''">
+            AND Apply_Member_phone = #{applyMemberPhone}
+        </if>
+        <if test="applyMemberIntroduction!=null and applyMemberIntroduction!=''">
+            AND Apply_Member_introduction = #{applyMemberIntroduction}
+        </if>
+        <if test="applyMemberStatus!=null and applyMemberStatus!=''">
+            AND Apply_Member_status = #{applyMemberStatus}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ApplyMemberSetColumns">
+        <if test="applyMemberName!=null and applyMemberName!=''">
+            Apply_Member_name = #{applyMemberName},
+        </if>
+        <if test="applyMemberEmail!=null and applyMemberEmail!=''">
+            Apply_Member_email = #{applyMemberEmail},
+        </if>
+        <if test="applyMemberAddress!=null and applyMemberAddress!=''">
+            Apply_Member_address = #{applyMemberAddress},
+        </if>
+        <if test="applyMemberPhone!=null and applyMemberPhone!=''">
+            Apply_Member_phone = #{applyMemberPhone},
+        </if>
+        <if test="applyMemberIntroduction!=null and applyMemberIntroduction!=''">
+            Apply_Member_introduction = #{applyMemberIntroduction},
+        </if>
+        <if test="applyMemberStatus!=null and applyMemberStatus!=''">
+            Apply_Member_status = #{applyMemberStatus},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ApplyMemberMap" type="com.zzw.animalserve.entity.ApplyMember">
+        <id column="Apply_Member_id" property="applyMemberId"/>
+        <result column="Apply_Member_name" property="applyMemberName"/>
+        <result column="Apply_Member_email" property="applyMemberEmail"/>
+        <result column="Apply_Member_address" property="applyMemberAddress"/>
+        <result column="Apply_Member_phone" property="applyMemberPhone"/>
+        <result column="Apply_Member_introduction" property="applyMemberIntroduction"/>
+        <result column="Apply_Member_status" property="applyMemberStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 查询表apply_member所有信息 -->
+    <select id="findAllApplyMember" resultMap="ApplyMemberMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM apply_member
+    </select>
+
+    <!-- 根据主键applyMemberId查询表apply_member信息 -->
+    <select id="findApplyMemberByapplyMemberId" resultMap="ApplyMemberMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM apply_member
+        WHERE Apply_Member_id=#{applyMemberId}
+    </select>
+
+    <!-- 根据条件查询表apply_member信息 -->
+    <select id="findApplyMemberByCondition" resultMap="ApplyMemberMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM apply_member
+        WHERE 1=1
+        <include refid="ApplyMemberByCondition"/>
+    </select>
+
+    <!-- 根据主键applyMemberId删除表apply_member信息 -->
+    <delete id="deleteApplyMemberByapplyMemberId">
+        DELETE
+        FROM apply_member
+        WHERE Apply_Member_id = #{applyMemberId}
+    </delete>
+
+    <!-- 根据主键applyMemberId更新表apply_member信息 -->
+    <update id="updateApplyMemberByapplyMemberId" parameterType="com.zzw.animalserve.entity.ApplyMember">
+        UPDATE apply_member
+        <set>
+            <include refid="ApplyMemberSetColumns"/>
+        </set>
+        WHERE
+        Apply_Member_id=#{applyMemberId}
+    </update>
+
+    <!-- 新增表apply_member信息 -->
+    <insert id="addApplyMember">
+        INSERT INTO apply_member ( Apply_Member_id
+                                 , Apply_Member_name
+                                 , Apply_Member_email
+                                 , Apply_Member_address
+                                 , Apply_Member_phone
+                                 , Apply_Member_introduction
+                                 , Apply_Member_status
+                                 , create_time
+                                 , update_time
+                                 , update_id
+                                 , delect_tag)
+        VALUES ( #{applyMemberId}
+               , #{applyMemberName}
+               , #{applyMemberEmail}
+               , #{applyMemberAddress}
+               , #{applyMemberPhone}
+               , #{applyMemberIntroduction}
+               , #{applyMemberStatus}
+               , #{createTime}
+               , #{updateTime}
+               , #{updateId}
+               , #{delectTag})
+    </insert>
+</mapper>

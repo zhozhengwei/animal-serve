@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.MessageMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Message_id
+        , Message_name, Message_email, Message_text, parent_id, Message_status, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="MessageByCondition">
+        <if test="messageName!=null and messageName!=''">
+            AND Message_name = #{messageName}
+        </if>
+        <if test="messageEmail!=null and messageEmail!=''">
+            AND Message_email = #{messageEmail}
+        </if>
+        <if test="messageText!=null and messageText!=''">
+            AND Message_text = #{messageText}
+        </if>
+        <if test="parentId!=null and parentId!=''">
+            AND parent_id = #{parentId}
+        </if>
+        <if test="messageStatus!=null and messageStatus!=''">
+            AND Message_status = #{messageStatus}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="MessageSetColumns">
+        <if test="messageName!=null and messageName!=''">
+            Message_name = #{messageName},
+        </if>
+        <if test="messageEmail!=null and messageEmail!=''">
+            Message_email = #{messageEmail},
+        </if>
+        <if test="messageText!=null and messageText!=''">
+            Message_text = #{messageText},
+        </if>
+        <if test="parentId!=null and parentId!=''">
+            parent_id = #{parentId},
+        </if>
+        <if test="messageStatus!=null and messageStatus!=''">
+            Message_status = #{messageStatus},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null and createTime!=''">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null and updateTime!=''">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MessageMap" type="com.zzw.animalserve.entity.Message">
+        <id column="Message_id" property="messageId"/>
+        <result column="Message_name" property="messageName"/>
+        <result column="Message_email" property="messageEmail"/>
+        <result column="Message_text" property="messageText"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="Message_status" property="messageStatus"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="message" javaType="com.zzw.animalserve.entity.Message" select="com.zzw.animalserve.mapper.MessageMapper.findMessageByparentId" column="parentId"/>
+        <association property="member" javaType="com.zzw.animalserve.entity.Member" select="com.zzw.animalserve.mapper.MemberMapper.queryById" column="create_id"></association>
+    </resultMap>
+
+    <!-- 查询表message所有信息 -->
+    <select id="findAllMessage" resultMap="MessageMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM message
+    </select>
+
+    <!-- 根据主键messageId查询表message信息 -->
+    <select id="findMessageBymessageId" resultMap="MessageMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM message
+        WHERE Message_id=#{messageId}
+    </select>
+
+    <select id="findMessageByparentId" resultMap="MessageMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM message
+        WHERE Message_id=#{parentId}
+    </select>
+
+
+    <!-- 根据条件查询表message信息 -->
+    <select id="findMessageByCondition" resultMap="MessageMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM message
+        WHERE 1=1
+        <include refid="MessageByCondition"/>
+    </select>
+
+    <!-- 根据主键messageId删除表message信息 -->
+    <delete id="deleteMessageBymessageId">
+        DELETE
+        FROM message
+        WHERE Message_id = #{messageId}
+    </delete>
+
+    <!-- 根据主键messageId更新表message信息 -->
+    <update id="updateMessageBymessageId" parameterType="com.zzw.animalserve.entity.Message">
+        UPDATE message
+        <set>
+            <include refid="MessageSetColumns"/>
+        </set>
+        WHERE
+        Message_id=#{messageId}
+    </update>
+
+    <!-- 新增表message信息 -->
+    <insert id="addMessage">
+        INSERT INTO message ( Message_id
+                            , Message_name
+                            , Message_email
+                            , Message_text
+                            , parent_id
+                            , Message_status
+                            , create_id
+                            , create_time
+                            , update_id
+                            , update_time
+                            , delect_tag)
+        VALUES ( #{messageId}
+               , #{messageName}
+               , #{messageEmail}
+               , #{messageText}
+               , #{parentId}
+               , #{messageStatus}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

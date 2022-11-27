@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ArtiodactylaMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        ARTIODACTYLA_id
+        , ARTIODACTYLA_name, Mammalia_id, Chordata_id, Animalia_id, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ArtiodactylaByCondition">
+        <if test="artiodactylaName!=null and artiodactylaName!=''">
+            AND ARTIODACTYLA_name = #{artiodactylaName}
+        </if>
+        <if test="mammaliaId!=null and mammaliaId!=''">
+            AND Mammalia_id = #{mammaliaId}
+        </if>
+        <if test="chordataId!=null and chordataId!=''">
+            AND Chordata_id = #{chordataId}
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            AND Animalia_id = #{animaliaId}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ArtiodactylaSetColumns">
+        <if test="artiodactylaName!=null and artiodactylaName!=''">
+            ARTIODACTYLA_name = #{artiodactylaName},
+        </if>
+        <if test="mammaliaId!=null and mammaliaId!=''">
+            Mammalia_id = #{mammaliaId},
+        </if>
+        <if test="chordataId!=null and chordataId!=''">
+            Chordata_id = #{chordataId},
+        </if>
+        <if test="animaliaId!=null and animaliaId!=''">
+            Animalia_id = #{animaliaId},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ArtiodactylaMap" type="com.zzw.animalserve.entity.Artiodactyla">
+        <id column="ARTIODACTYLA_id" property="artiodactylaId"/>
+        <result column="ARTIODACTYLA_name" property="artiodactylaName"/>
+        <result column="Mammalia_id" property="mammaliaId"/>
+        <result column="Chordata_id" property="chordataId"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <resultMap id="ArtiodactylaMapResult" type="com.zzw.animalserve.entity.Artiodactyla">
+        <id column="ARTIODACTYLA_id" property="artiodactylaId"/>
+        <result column="ARTIODACTYLA_name" property="artiodactylaName"/>
+        <result column="Mammalia_id" property="mammaliaId"/>
+        <result column="Chordata_id" property="chordataId"/>
+        <result column="Animalia_id" property="animaliaId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="animalia" javaType="com.zzw.animalserve.entity.Animalia" select="com.zzw.animalserve.mapper.AnimaliaMapper.findAnimaliaByanimaliaId" column="Animalia_id"></association>
+        <association property="chordata" javaType="com.zzw.animalserve.entity.Chordata" select="com.zzw.animalserve.mapper.ChordataMapper.findChordataBychordataId" column="Chordata_id"></association>
+        <association property="mammalia" javaType="com.zzw.animalserve.entity.Mammalia" select="com.zzw.animalserve.mapper.MammaliaMapper.findMammaliaBymammaliaId" column="Mammalia_id"></association>
+<!--        <collection property="bovidaeList" ofType="com.zzw.animalserve.entity.Bovidae" select="com.zzw.animalserve.mapper.BovidaeMapper.findBovidaeByartiodactylaId" column="ARTIODACTYLA_id"></collection>-->
+    </resultMap>
+
+    <!-- 查询表artiodactyla所有信息 -->
+    <select id="findAllArtiodactyla" resultMap="ArtiodactylaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM artiodactyla
+    </select>
+
+    <!-- 根据主键artiodactylaId查询表artiodactyla信息 -->
+    <select id="findArtiodactylaByartiodactylaId" resultMap="ArtiodactylaMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM artiodactyla
+        WHERE ARTIODACTYLA_id=#{artiodactylaId}
+    </select>
+
+    <select id="findArtiodactylaByartiodactylaIdList" resultMap="ArtiodactylaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM artiodactyla
+        WHERE ARTIODACTYLA_id=#{artiodactylaId}
+    </select>
+
+    <!-- 根据主键artiodactylaId查询表artiodactyla信息 -->
+    <select id="findArtiodactylaBymammaliaId" resultMap="ArtiodactylaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM artiodactyla
+        WHERE Mammalia_id=#{mammaliaId}
+    </select>
+
+    <!-- 根据条件查询表artiodactyla信息 -->
+    <select id="findArtiodactylaByCondition" resultMap="ArtiodactylaMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM artiodactyla
+        WHERE 1=1
+        <include refid="ArtiodactylaByCondition"/>
+    </select>
+
+    <!-- 根据主键artiodactylaId删除表artiodactyla信息 -->
+    <delete id="deleteArtiodactylaByartiodactylaId">
+        DELETE
+        FROM artiodactyla
+        WHERE ARTIODACTYLA_id = #{artiodactylaId}
+    </delete>
+
+    <!-- 根据主键artiodactylaId更新表artiodactyla信息 -->
+    <update id="updateArtiodactylaByartiodactylaId" parameterType="com.zzw.animalserve.entity.Artiodactyla">
+        UPDATE artiodactyla
+        <set>
+            <include refid="ArtiodactylaSetColumns"/>
+        </set>
+        WHERE
+        ARTIODACTYLA_id=#{artiodactylaId}
+    </update>
+
+    <!-- 新增表artiodactyla信息 -->
+    <insert id="addArtiodactyla">
+        INSERT INTO artiodactyla ( ARTIODACTYLA_id
+                                 , ARTIODACTYLA_name
+                                 , Mammalia_id
+                                 , Chordata_id
+                                 , Animalia_id
+                                 , create_id
+                                 , create_time
+                                 , update_id
+                                 , update_time
+                                 , delect_tag)
+        VALUES ( #{artiodactylaId}
+               , #{artiodactylaName}
+               , #{mammaliaId}
+               , #{chordataId}
+               , #{animaliaId}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

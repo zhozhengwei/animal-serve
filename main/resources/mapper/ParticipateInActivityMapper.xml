@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.ParticipateInActivityMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        participate_in_activity_id
+        , Activity_id, participate_in_activity_name, participate_in_activity_email, participate_in_activity_status, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="ParticipateInActivityByCondition">
+        <if test="activityId!=null and activityId!=''">
+            AND Activity_id = #{activityId}
+        </if>
+        <if test="participateInActivityName!=null and participateInActivityName!=''">
+            AND participate_in_activity_name = #{participateInActivityName}
+        </if>
+        <if test="participateInActivityEmail!=null and participateInActivityEmail!=''">
+            AND participate_in_activity_email = #{participateInActivityEmail}
+        </if>
+        <if test="participateInActivityStatus!=null and participateInActivityStatus!=''">
+            AND participate_in_activity_status = #{participateInActivityStatus}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null and createTime!=''">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null and updateTime!=''">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="ParticipateInActivitySetColumns">
+        <if test="activityId!=null and activityId!=''">
+            Activity_id = #{activityId},
+        </if>
+        <if test="participateInActivityName!=null and participateInActivityName!=''">
+            participate_in_activity_name = #{participateInActivityName},
+        </if>
+        <if test="participateInActivityEmail!=null and participateInActivityEmail!=''">
+            participate_in_activity_email = #{participateInActivityEmail},
+        </if>
+        <if test="participateInActivityStatus!=null and participateInActivityStatus!=''">
+            participate_in_activity_status = #{participateInActivityStatus},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ParticipateInActivityMap" type="com.zzw.animalserve.entity.ParticipateInActivity">
+        <id column="participate_in_activity_id" property="participateInActivityId"/>
+        <result column="Activity_id" property="activityId"/>
+        <result column="participate_in_activity_name" property="participateInActivityName"/>
+        <result column="participate_in_activity_email" property="participateInActivityEmail"/>
+        <result column="participate_in_activity_status" property="participateInActivityStatus"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="member" javaType="com.zzw.animalserve.entity.Member" select="com.zzw.animalserve.mapper.MemberMapper.queryById" column="create_id"></association>
+        <association property="activity" javaType="com.zzw.animalserve.entity.Activity" select="com.zzw.animalserve.mapper.ActivityMapper.findActivityByactivityId" column="Activity_id"></association>
+    </resultMap>
+
+    <!-- 查询表participate_in_activity所有信息 -->
+    <select id="findAllParticipateInActivity" resultMap="ParticipateInActivityMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM participate_in_activity
+    </select>
+
+    <!-- 根据主键participateInActivityId查询表participate_in_activity信息 -->
+    <select id="findParticipateInActivityByparticipateInActivityId" resultMap="ParticipateInActivityMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM participate_in_activity
+        WHERE participate_in_activity_id=#{participateInActivityId}
+    </select>
+
+    <!-- 根据条件查询表participate_in_activity信息 -->
+    <select id="findParticipateInActivityByCondition" resultMap="ParticipateInActivityMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM participate_in_activity
+        WHERE 1=1
+        <include refid="ParticipateInActivityByCondition"/>
+    </select>
+
+    <!-- 根据主键participateInActivityId删除表participate_in_activity信息 -->
+    <delete id="deleteParticipateInActivityByparticipateInActivityId">
+        DELETE
+        FROM participate_in_activity
+        WHERE participate_in_activity_id = #{participateInActivityId}
+    </delete>
+
+    <!-- 根据主键participateInActivityId更新表participate_in_activity信息 -->
+    <update id="updateParticipateInActivityByparticipateInActivityId"
+            parameterType="com.zzw.animalserve.entity.ParticipateInActivity">
+        UPDATE participate_in_activity
+        <set>
+            <include refid="ParticipateInActivitySetColumns"/>
+        </set>
+        WHERE
+        participate_in_activity_id=#{participateInActivityId}
+    </update>
+
+    <!-- 新增表participate_in_activity信息 -->
+    <insert id="addParticipateInActivity">
+        INSERT INTO participate_in_activity ( participate_in_activity_id
+                                            , Activity_id
+                                            , participate_in_activity_name
+                                            , participate_in_activity_email
+                                            , participate_in_activity_status
+                                            , create_id
+                                            , create_time
+                                            , update_id
+                                            , update_time
+                                            , delect_tag)
+        VALUES ( #{participateInActivityId}
+               , #{activityId}
+               , #{participateInActivityName}
+               , #{participateInActivityEmail}
+               , #{participateInActivityStatus}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

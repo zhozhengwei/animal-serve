@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.CommentMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Comment_id
+        , Comment_content, Member_id, Parent_cmt_id, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="CommentByCondition">
+        <if test="commentContent!=null and commentContent!=''">
+            AND Comment_content = #{commentContent}
+        </if>
+        <if test="memberId!=null and memberId!=''">
+            AND Member_id = #{memberId}
+        </if>
+        <if test="parentCmtId!=null and parentCmtId!=''">
+            AND Parent_cmt_id = #{parentCmtId}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="CommentSetColumns">
+        <if test="commentContent!=null and commentContent!=''">
+            Comment_content = #{commentContent},
+        </if>
+        <if test="memberId!=null and memberId!=''">
+            Member_id = #{memberId},
+        </if>
+        <if test="parentCmtId!=null and parentCmtId!=''">
+            Parent_cmt_id = #{parentCmtId},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null and createTime!=''">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null and updateTime!=''">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="CommentMap" type="com.zzw.animalserve.entity.Comment">
+        <id column="Comment_id" property="commentId"/>
+        <result column="Comment_content" property="commentContent"/>
+        <result column="Member_id" property="memberId"/>
+        <result column="Parent_cmt_id" property="parentCmtId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="CommentMapResult" type="com.zzw.animalserve.entity.Comment">
+        <id column="Comment_id" property="commentId"/>
+        <result column="Comment_content" property="commentContent"/>
+        <result column="Member_id" property="memberId"/>
+        <result column="Parent_cmt_id" property="parentCmtId"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+        <association property="member" javaType="com.zzw.animalserve.entity.Member" select="com.zzw.animalserve.mapper.MemberMapper.queryById" column="Member_id"></association>
+        <collection property="children" ofType="com.zzw.animalserve.entity.Comment" select="com.zzw.animalserve.mapper.CommentMapper.findCommentByParentCommentId" column="Parent_cmt_id"/>
+    </resultMap>
+
+    <!-- 查询表comment所有信息 -->
+    <select id="findAllComment" resultMap="CommentMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM comment
+    </select>
+
+    <!-- 根据主键commentId查询表comment信息 -->
+    <select id="findCommentBycommentId" parameterType="Long" resultMap="CommentMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM comment
+        WHERE Comment_id=#{commentId}
+    </select>
+
+    <!-- 根据主键commentId查询表comment信息 -->
+    <select id="findCommentByParentCommentId" parameterType="Long" resultMap="CommentMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM comment
+        WHERE Comment_id=#{parentCmtId}
+    </select>
+
+    <!-- 根据条件查询表comment信息 -->
+    <select id="findCommentByCondition" resultMap="CommentMapResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM comment
+        WHERE 1=1
+        <include refid="CommentByCondition"/>
+    </select>
+
+    <!-- 根据主键commentId删除表comment信息 -->
+    <delete id="deleteCommentBycommentId">
+        DELETE
+        FROM comment
+        WHERE Comment_id = #{commentId}
+    </delete>
+
+    <!-- 根据主键commentId更新表comment信息 -->
+    <update id="updateCommentBycommentId" parameterType="com.zzw.animalserve.entity.Comment">
+        UPDATE comment
+        <set>
+            <include refid="CommentSetColumns"/>
+        </set>
+        WHERE
+        Comment_id=#{commentId}
+    </update>
+
+    <!-- 新增表comment信息 -->
+    <insert id="addComment"  useGeneratedKeys="true" keyColumn="Comment_id" keyProperty="commentId">
+        INSERT INTO comment ( Comment_id
+                            , Comment_content
+                            , Member_id
+                            , Parent_cmt_id
+                            , create_id
+                            , create_time
+                            , update_id
+                            , update_time
+                            , delect_tag)
+        VALUES ( #{commentId}
+               , #{commentContent}
+               , #{memberId}
+               , #{parentCmtId}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>

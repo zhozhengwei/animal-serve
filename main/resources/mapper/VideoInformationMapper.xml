@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzw.animalserve.mapper.VideoInformationMapper">
+
+    <!-- 通用设置 -->
+    <!-- 通用查询列 -->
+    <sql id="Base_Column_List">
+        Video_Information_id
+        , Video_Information_url, Video_Information_poster, Video_Information_content, Video_Information_type, create_id, create_time, update_id, update_time, delect_tag
+    </sql>
+
+    <!-- 通用条件列 -->
+    <sql id="VideoInformationByCondition">
+        <if test="videoInformationUrl!=null and videoInformationUrl!=''">
+            AND Video_Information_url = #{videoInformationUrl}
+        </if>
+        <if test="videoInformationPoster!=null and videoInformationPoster!=''">
+            AND Video_Information_poster = #{videoInformationPoster}
+        </if>
+        <if test="videoInformationContent!=null and videoInformationContent!=''">
+            AND Video_Information_content = #{videoInformationContent}
+        </if>
+        <if test="videoInformationType!=null and videoInformationType!=''">
+            AND Video_Information_type = #{videoInformationType}
+        </if>
+        <if test="createId!=null and createId!=''">
+            AND create_id = #{createId}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime}
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            AND update_id = #{updateId}
+        </if>
+        <if test="updateTime!=null">
+            AND update_time = #{updateTime}
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            AND delect_tag = #{delectTag}
+        </if>
+    </sql>
+
+    <!-- 通用设置列 -->
+    <sql id="VideoInformationSetColumns">
+        <if test="videoInformationUrl!=null and videoInformationUrl!=''">
+            Video_Information_url = #{videoInformationUrl},
+        </if>
+        <if test="videoInformationPoster!=null and videoInformationPoster!=''">
+            Video_Information_poster = #{videoInformationPoster},
+        </if>
+        <if test="videoInformationContent!=null and videoInformationContent!=''">
+            Video_Information_content = #{videoInformationContent},
+        </if>
+        <if test="videoInformationType!=null and videoInformationType!=''">
+            Video_Information_type = #{videoInformationType},
+        </if>
+        <if test="createId!=null and createId!=''">
+            create_id = #{createId},
+        </if>
+        <if test="createTime!=null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateId!=null and updateId!=''">
+            update_id = #{updateId},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        <if test="delectTag!=null and delectTag!=''">
+            delect_tag = #{delectTag},
+        </if>
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="VideoInformationMap" type="com.zzw.animalserve.entity.VideoInformation">
+        <id column="Video_Information_id" property="videoInformationId"/>
+        <result column="Video_Information_url" property="videoInformationUrl"/>
+        <result column="Video_Information_poster" property="videoInformationPoster"/>
+        <result column="Video_Information_content" property="videoInformationContent"/>
+        <result column="Video_Information_type" property="videoInformationType"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_id" property="updateId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delect_tag" property="delectTag"/>
+    </resultMap>
+
+    <!-- 查询表video_information所有信息 -->
+    <select id="findAllVideoInformation" resultMap="VideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM video_information
+    </select>
+
+    <select id="findLikeContentTypeTwo" parameterType="string" resultMap="VideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM video_information
+        WHERE Video_Information_content like '%${value}%' and Video_Information_type = 2
+    </select>
+
+
+    <select id="findLikeContentTypeOne" parameterType="string" resultMap="VideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM video_information
+        WHERE Video_Information_content like '%${value}%' and Video_Information_type = 1
+    </select>
+
+
+    <!-- 根据主键videoInformationId查询表video_information信息 -->
+    <select id="findVideoInformationByvideoInformationId" resultMap="VideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM video_information
+        WHERE Video_Information_id=#{videoInformationId}
+    </select>
+
+    <!-- 根据条件查询表video_information信息 -->
+    <select id="findVideoInformationByCondition" resultMap="VideoInformationMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM video_information
+        WHERE 1=1
+        <include refid="VideoInformationByCondition"/>
+    </select>
+
+    <!-- 根据主键videoInformationId删除表video_information信息 -->
+    <delete id="deleteVideoInformationByvideoInformationId">
+        DELETE
+        FROM video_information
+        WHERE Video_Information_id = #{videoInformationId}
+    </delete>
+
+    <!-- 根据主键videoInformationId更新表video_information信息 -->
+    <update id="updateVideoInformationByvideoInformationId" parameterType="com.zzw.animalserve.entity.VideoInformation">
+        UPDATE video_information
+        <set>
+            <include refid="VideoInformationSetColumns"/>
+        </set>
+        WHERE
+        Video_Information_id=#{videoInformationId}
+    </update>
+
+    <!-- 新增表video_information信息 -->
+    <insert id="addVideoInformation" useGeneratedKeys="true" keyColumn="Video_Information_id" keyProperty="videoInformationId">
+        INSERT INTO video_information ( Video_Information_id
+                                      , Video_Information_url
+                                      , Video_Information_poster
+                                      , Video_Information_content
+                                      , Video_Information_type
+                                      , create_id
+                                      , create_time
+                                      , update_id
+                                      , update_time
+                                      , delect_tag)
+        VALUES ( #{videoInformationId}
+               , #{videoInformationUrl}
+               , #{videoInformationPoster}
+               , #{videoInformationContent}
+               , #{videoInformationType}
+               , #{createId}
+               , #{createTime}
+               , #{updateId}
+               , #{updateTime}
+               , #{delectTag})
+    </insert>
+</mapper>
