@@ -6,9 +6,9 @@ spring:
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://sh-cynosdbmysql-grp-3429w034.sql.tencentcdb.com:22942/animals?characterEncoding=utf-8
+    url: jdbc:mysql://#########################################:000000/animals?characterEncoding=utf-8
     username: root
-    password: ZZw@171413
+    password: **********
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
@@ -26,7 +26,7 @@ spring:
     host: smtp.163.com
     port: 465
     username: zzw17370709160@163.com
-    password: DEOXPSOWZNYFFJPW
+    password: &&&&&&&&&&&&&
   servlet:
     multipart:
       max-file-size: 300MB
@@ -62,6 +62,6 @@ tencent:
 
 alipay:
   appId: 2021000121693386
-  appPrivateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCkLfkkyip/wIZCisryBtopbdIO+14V7SNhdI1Y1LSP+nYCsj1IUV2kSoCfnL3tYA+LHlxiKWlz74hvGI8Yy4Zab+5M4JfOJJ1Fkkuw2e+KD4kgnPIFqdd2SZC6EKOnqGqCTjcSTBPTc0Vw66FqY3a9ACQAUUEPVpjIeOjKrJb+v7vCbPJkP4jb/4bxUE38OKRbVXm67ewsOjDGxUl5aPqD9StQFYBRixq3Ur3wGaX7pqNbQNmvCnBB0Sc7GvK3ssvCDJW0TQ8iZb+LcReXSFOMBsqkLomWHn4p9vAb3QeJr94lm84sYAWzzeJZPx6MBMkFSOUaq1plql7ViVNNnJu1AgMBAAECggEAf4eCfxRWvNN0tt2O1T+DWSkIQUD6jXedwwbBAN6Av1IjNuby+WjSn1qL3O/pDClRCZR02H8ofbjztrBR/0WgwEEvzyGqaaNBUxhXmTFAg3Kb5uxihwmt5yEvvYhNR19oFH3jA2B7CgYBS7yMrtJCGn+wd1qmed6fYSGiWkSEKa7NRi33BS7usVBXPcXfXKOFpu7A5vMJD7e8zQoIYZrZ1iF3htmEWQOM9xI486gOAWWbvBzTl5U4niEhaEsrvQktTxCA11ppuaWj/y048Ti9RzPRc9y8M1mTwVeAiZvP7ErRAN87kYUyIiliyymh3Jui63dmSbTGLZ4WpiotUwibAQKBgQDvKGm14SM/wp20Lm42m7luJGf5ru9Mb0VItRS4EyKgtNShCWI2dt9DfhLcmLWSeT7rZjdJHM4tITd6tocPZWDtx8yQBxfYIDlpuhI3RYeBDBLRAuWjKymnZVaM7uAeBuD+b0wnvpXoyLLGXNISJE2m5LbbvvjR425J3s0+2V3NdQKBgQCvvdYh29+qDDdz+nDG9YzsfYowC6cp1aoAEUsUgGc2L3EXw6e7OvfD64iqqgDvgEZfQYb742ku64H5wLQxU7FtXza8B+aN6RZ6F2KbZIb5RaD3gSPOt3xHStu/abvbceheSHTPgVKM7CymYVn1hyxCzb/5xgKutyVqdPAR6dqNQQKBgHb6h/ywELU7wPFO2A3a0xl0izWwTeScxr8xNymMe4Gv9MhYvr+Ry+jr475TSqGgKCk8JOz+o6PYDp3CCNcj/GDPMXnFzZr8DRQIOd+9e3g75XCOHGhcpNBenfxnKqBFk9GA1UZAjpvMnQQKUYgs/2S0DDSugWMJ3mhpq3pE8WGxAoGAd2pTOqahEHdEpvYh88+edoPHhmYkrHSXE3ysu72UZGlQO4mjS8IB4YsGTpE+GX/cUZXBFx+rtUoqA39B8dKg2WS9WH811m/v6f5B7r0cSf1aJ1QE9M4REJB5SVObZr2723T4ipehdEh2/odgDUpQdQRB0oMOB5JDRlc3WbTB4QECgYAO+0NfkQkFcItRgjCRM5UxEGqGyIIILNeIuJ9bT5Vwc/EV+L9jWCglwcrkSh6DgfnMWPHhLQqp4G+hxU1vay+HZTBmK0kX08GkxhDdI/PjM5GcNuVmole/1HZvNILfaoL6nPuLLNgV5OLbojbpX26jdrWTgfJkHajDeglTS60ypQ==
-  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAntFECbEOsx2hXYN3CH8jMU6ZhaPeLqRWC3ZCuYN7/5xfSNnZjkigHYuIPUQx3sThWRfCoIBI77bDOaTPPOIXUK49njH+z3zjE2QUKKXtYaSGlp033Vz2djUA0e6gBEHiBjH5rhsNACf+yIN1Z9JnZ3gHz9vtAV3SM8AlyeBMiMWg78hZs1W+Qg6SjI41iGl1EJkgZUOkNI3icCP5/019O/hJnU1pnkaAq5A1VHiozzCFhvhPsRWYvDda/syPkiEQ+QjKh4YH1t7lh0L80kVQnn+/1duBSrz0jsC9viCgSg+2uDEVdRB//QxSSxwphPiCazlLHLw5LUTlQE6KxmhSYwIDAQAB
-  notifyUrl: http://47.103.34.147:10056/api/alipay/notify
+  appPrivateKey: 
+  alipayPublicKey: 
+  notifyUrl: *************************
