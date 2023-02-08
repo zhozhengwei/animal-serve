@@ -15,18 +15,18 @@ import java.util.Random;
  */
 public class TencentCOS {
     // 此处填写的存储桶名称
-    private static final String bucketName = "zzwvideo-1308302031";
+    private static final String bucketName = "*******************";
     // secretId
-    private static final String secretId = "AKIDFSgrvvqhSYVXYUGwcEeohJfla9SUFpRy";
+    private static final String secretId = "*********************************";
     // secretKey
-    private static final String secretKey = "HLGxX5eP8rZ7RUTbjJnBVfy9B61zoTwH";
+    private static final String secretKey = "*********************************";
 
     // 1 初始化用户身份信息(secretId, secretKey，可在腾讯云后台中的API密钥管理中查看！
     private static COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
 
     // 2 设置bucket的区域, COS地域的简称请参照
     // https://cloud.tencent.com/document/product/436/6224，根据自己创建的存储桶选择地区
-    private static ClientConfig clientConfig = new ClientConfig(new Region("ap-shanghai"));
+    private static ClientConfig clientConfig = new ClientConfig(new Region("********"));
 
     /**
      * 简单文件上传, 最大支持 5 GB, 适用于小文件上传, 建议 20 M 以下的文件使用该接口 大文件上传请参照 API 文档高级 API 上传
