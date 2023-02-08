@@ -23,11 +23,11 @@ import java.time.format.DateTimeFormatter;
 public class COSStorageUtil {
     // 1 初始化用户身份信息（secretId, secretKey）。
     //  可通过个人中心- - -访问管理- - -访问密匙- - -API密匙管理查看自己的id，key
-    static String SECRET_ID = "AKIDFSgrvvqhSYVXYUGwcEeohJfla9SUFpRy";
-    static String SECRET_KEY = "HLGxX5eP8rZ7RUTbjJnBVfy9B61zoTwH";
-    static String BUCKET_NAME = "zzwcos-1308302031";
+    static String SECRET_ID = "************************************";
+    static String SECRET_KEY = "***********************************";
+    static String BUCKET_NAME = "***************";
     // 对应服务器所在的区域，我的在shanghai
-    static String REGION = "ap-shanghai";
+    static String REGION = "**************";
 
 
     private COSStorageUtil(){}
