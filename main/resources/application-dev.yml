@@ -58,4 +58,4 @@ knife4j:
   enable: true
 
 tencent:
-  path: https://zzwvideo-1308302031.cos.ap-shanghai.myqcloud.com
+  path: *******************************
